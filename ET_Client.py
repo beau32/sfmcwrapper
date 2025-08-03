@@ -142,11 +142,14 @@ class ET_Client:
 
         all_results = list(response.Results or [])
 
-        while getattr(response, 'MoreDataAvailable', False):
+        while getattr(response, 'OverallStatus', False) and response['OverallStatus']=='MoreDataAvailable':
             request_id = getattr(response, 'RequestID', None)
             if not request_id:
                 break
-            response = self.soap_client.service.ContinueRequest(request_id)
+            RetrieveRequest = self.get_type('RetrieveRequest')
+            req.ContinueRequest = request_id
+            response = self.soap_client.service.Retrieve(req)
+
             all_results.extend(response.Results or [])
         
         return type('RetrieveResponse', (), {
