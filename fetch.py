@@ -1,3 +1,26 @@
+#!/usr/bin/env python3
+"""
+fetch.py
+
+Refactored version of fetch.py that uses ET_Client.py (zeep-based + REST helpers)
+for authentication and REST calls. Follows ET_Client conventions and avoids
+manual token plumbing.
+
+Usage:
+    python fetch.py \
+        --method rest \
+        --objectname listContentAssets
+        --conf xyz_org
+        [--config /path/to/config.json] \
+        [--debug]
+
+Configuration:
+- If --config is provided, it should be a JSON matching ET_Client.load_config() expectations.
+- Otherwise the script reads environment variables:
+    SFMC_CLIENT_ID, SFMC_CLIENT_SECRET, SFMC_AUTH_URL, SFMC_REST_URL,
+    SFMC_WSDL_URL, SFMC_SOAP_ENDPOINT, and optionally SFMC_ACCOUNT_ID.
+"""
+
 import os, json, sys, argparse
 import pandas as pd
 import duckdb as db
