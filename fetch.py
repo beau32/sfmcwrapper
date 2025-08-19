@@ -1,26 +1,3 @@
-#!/usr/bin/env python3
-"""
-fetch.py
-
-Refactored version of fetch.py that uses ET_Client.py (zeep-based + REST helpers)
-for authentication and REST calls. Follows ET_Client conventions and avoids
-manual token plumbing.
-
-Usage:
-    python fetch.py \
-        --method rest \
-        --objectname listContentAssets
-        --conf xyz_org
-        [--config /path/to/config.json] \
-        [--debug]
-
-Configuration:
-- If --config is provided, it should be a JSON matching ET_Client.load_config() expectations.
-- Otherwise the script reads environment variables:
-    SFMC_CLIENT_ID, SFMC_CLIENT_SECRET, SFMC_AUTH_URL, SFMC_REST_URL,
-    SFMC_WSDL_URL, SFMC_SOAP_ENDPOINT, and optionally SFMC_ACCOUNT_ID.
-"""
-
 import os, json, sys, argparse
 import pandas as pd
 import duckdb as db
@@ -48,7 +25,7 @@ def fetching_soap(objectname, objectlist) -> list:
 
   print('Retrieve Status: ' + response_fields.OverallStatus)
   print('Results Length: ' + str(len(response_fields.Results)))
-
+  
   return response_fields
 
 def fetching_rest(objectname, objectlist) -> list:
@@ -121,19 +98,24 @@ def main():
   global client
 
   parser = argparse.ArgumentParser(description="Load configuration from JSON")
-  parser.add_argument('--method', default='soap',  help='The request method', choices=['rest', 'soap'], const='rest', nargs='?')
   parser.add_argument("--conf", required=True, help="Config key to use from conf.json (e.g. 1)")
   parser.add_argument("--file", default="conf.json", help="Path to config file (default: conf.json)")
   parser.add_argument("--objectname", required=True, help="The object name (e.g. user, order, customer)")
+  parser.add_argument("--debug", required=False, help="The object name (e.g. user, order, customer)")
+  
   args = parser.parse_args()
   
-  client = ET_Client(args.file, args.conf)
-  restlist, soaplist = load_lookup_lists()
+  client = ET_Client(args.file, args.conf) if args.conf else ET_Client()
+
+  rest, soap = load_lookup_lists()
   
-  if args.method =='soap':
-    results =  fetching_soap(args.objectname, soaplist)
+  if find_object_by_name(soap,args.objectname):
+    results =  fetching_soap(args.objectname, soap)
+  elif find_object_by_name(rest,args.objectname):
+    results = fetching_rest(args.objectname, rest)
   else:
-    results = fetching_rest(args.objectname, restlist)
+    print(f"Object '{args.objectname}' not found in catalogs.")
+    return
   
   save(results,filename=f'{args.objectname}.csv')
   
