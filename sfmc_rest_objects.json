@@ -1,0 +1,906 @@
+[
+    {
+        "endpoint": "/address/v1/validateEmail",
+        "method": "POST",
+        "api_permission_scope": "email_read",
+        "description": "Validates an email address.",
+        "name": "validateEmail"
+    },
+    {
+        "endpoint": "/messaging/v1/messageDefinitionSends/key:{key}/send",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "email_send",
+        "description": "Sends a message using a message definition.",
+        "name": "sendMessageDefinition"
+    },
+    {
+        "endpoint": "/messaging/v1/domainverification",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "saved_content_read",
+        "description": "Retrieves domain verification details.",
+        "name": "getDomainVerification"
+    },
+    {
+        "endpoint": "/messaging/v1/domainverification",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "saved_content_read",
+        "description": "Creates a domain verification.",
+        "name": "createDomainVerification"
+    },
+    {
+        "endpoint": "/messaging/v1/domainverification/bulk/insert",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "saved_content_read",
+        "description": "Inserts multiple domain verifications.",
+        "name": "bulkInsertDomainVerification"
+    },
+    {
+        "endpoint": "/messaging/v1/domainverification/update",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "saved_content_read",
+        "description": "Updates a domain verification.",
+        "name": "updateDomainVerification"
+    },
+    {
+        "endpoint": "/messaging/v1/domainverification/delete",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "saved_content_read",
+        "description": "Deletes a domain verification.",
+        "name": "deleteDomainVerification"
+    },
+    {
+        "endpoint": "/messaging/v1/domainverification/push",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "saved_content_read",
+        "description": "Pushes a domain verification.",
+        "name": "pushDomainVerification"
+    },
+    {
+        "endpoint": "/data/v1/async/{requestId}/results",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "data_extensions_read",
+        "description": "Retrieves results of an asynchronous data extension request.",
+        "name": "getAsyncDataExtensionResults"
+    },
+    {
+        "endpoint": "/data/v1/async/{requestId}/status",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "data_extensions_read",
+        "description": "Checks the status of an asynchronous data extension request.",
+        "name": "getAsyncDataExtensionStatus"
+    },
+    {
+        "endpoint": "/data/v1/async/dataextensions/{id}/rows",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "data_extensions_write",
+        "description": "Asynchronously imports rows into a data extension.",
+        "name": "importDataExtensionRowsAsync"
+    },
+    {
+        "endpoint": "/hub/v1/dataevents/key:{key}/rowset",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "data_extensions_write",
+        "description": "Inserts or updates multiple records in a data extension.",
+        "name": "upsertDataExtensionRows"
+    },
+    {
+        "endpoint": "/data/v1/async/dataextensions/{id}/rows",
+        "method": "PUT",
+		"fields":"",
+        "api_permission_scope": "data_extensions_write",
+        "description": "Asynchronously updates rows in a data extension.",
+        "name": "updateDataExtensionRowsAsync"
+    },
+    {
+        "endpoint": "/hub/v1/dataevents/key:{key}/rows/{primaryKeys}",
+        "method": "PUT",
+		"fields":"",
+        "api_permission_scope": "data_extensions_write",
+        "description": "Updates a specific record in a data extension by key.",
+        "name": "updateDataExtensionRecordByKey"
+    },
+    {
+        "endpoint": "/hub/v1/dataevents/key:{key}/rows/{primaryKeys}/column/{columnName}",
+        "method": "PUT",
+		"fields":"",
+        "api_permission_scope": "data_extensions_write",
+        "description": "Updates a specific column in a data extension record.",
+        "name": "updateDataExtensionColumn"
+    },
+    {
+        "endpoint": "/messaging/v1/email/messages/{messageKey}",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "email_send",
+        "description": "Creates a triggered email message.",
+        "name": "createTriggeredEmail"
+    },
+    {
+        "endpoint": "/messaging/v1/email/messages",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "email_send",
+        "description": "Creates multiple triggered email messages.",
+        "name": "createMultipleTriggeredEmails"
+    },
+    {
+        "endpoint": "/messaging/v1/email/definitions",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "email_write",
+        "description": "Creates an email definition for triggered sends.",
+        "name": "createTriggeredEmailDefinition"
+    },
+    {
+        "endpoint": "/messaging/v1/email/messages/{messageKey}",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "email_read",
+        "description": "Retrieves a specific triggered email message.",
+        "name": "getTriggeredEmail"
+    },
+    {
+        "endpoint": "/messaging/v1/email/messages/?type=notSent",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "email_read",
+        "description": "Lists unsent triggered email messages.",
+        "name": "listUnsentTriggeredEmails"
+    },
+    {
+        "endpoint": "/messaging/v1/email/definitions/{definitionKey}/queue",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "email_read",
+        "description": "Retrieves the queue for a triggered email definition.",
+        "name": "getTriggeredEmailQueue"
+    },
+    {
+        "endpoint": "/messaging/v1/email/definitions/{definitionKey}",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "email_read",
+        "description": "Retrieves a specific email definition.",
+        "name": "getTriggeredEmailDefinition"
+    },
+    {
+        "endpoint": "/messaging/v1/email/definitions",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "email_read",
+        "description": "Lists all triggered email definitions.",
+        "name": "listTriggeredEmailDefinitions"
+    },
+    {
+        "endpoint": "/messaging/v1/email/definitions/{definitionKey}",
+        "method": "PATCH",
+		"fields":"",
+        "api_permission_scope": "email_write",
+        "description": "Updates a triggered email definition.",
+        "name": "updateTriggeredEmailDefinition"
+    },
+    {
+        "endpoint": "/messaging/v1/email/definitions/{definitionKey}/queue",
+        "method": "DELETE",
+		"fields":"",
+        "api_permission_scope": "email_write",
+        "description": "Clears the queue for a triggered email definition.",
+        "name": "clearTriggeredEmailQueue"
+    },
+    {
+        "endpoint": "/messaging/v1/email/definitions/{definitionKey}",
+        "method": "DELETE",
+		"fields":"",
+        "api_permission_scope": "email_write",
+        "description": "Deletes a triggered email definition.",
+        "name": "deleteTriggeredEmailDefinition"
+    },
+    {
+        "endpoint": "/messaging/v1/sms/definitions",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "sms_write",
+        "description": "Creates an SMS definition.",
+        "name": "createSmsDefinition"
+    },
+    {
+        "endpoint": "/sms/definitions/{definitionKey}",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "sms_read",
+        "description": "Retrieves a specific SMS definition.",
+        "name": "getSmsDefinition"
+    },
+    {
+        "endpoint": "/sms/definitions",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "sms_read",
+        "description": "Lists all SMS definitions.",
+        "name": "listSmsDefinitions"
+    },
+    {
+        "endpoint": "/sms/definitions/{definitionKey}/queue",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "sms_read",
+        "description": "Retrieves the queue for an SMS definition.",
+        "name": "getSmsDefinitionQueue"
+    },
+    {
+        "endpoint": "/sms/definitions/{definitionKey}/queue",
+        "method": "DELETE",
+		"fields":"",
+        "api_permission_scope": "sms_write",
+        "description": "Clears the queue for an SMS definition.",
+        "name": "clearSmsDefinitionQueue"
+    },
+    {
+        "endpoint": "/sms/definitions/{definitionKey}",
+        "method": "PATCH",
+		"fields":"",
+        "api_permission_scope": "sms_write",
+        "description": "Updates an SMS definition.",
+        "name": "updateSmsDefinition"
+    },
+    {
+        "endpoint": "/sms/definitions/{definitionKey}",
+        "method": "DELETE",
+		"fields":"",
+        "api_permission_scope": "sms_write",
+        "description": "Deletes an SMS definition.",
+        "name": "deleteSmsDefinition"
+    },
+    {
+        "endpoint": "/sms/messages/{messageKey}",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "tracking_events_read, sms_read",
+        "description": "Retrieves a specific SMS message.",
+        "name": "getSmsMessage"
+    },
+    {
+        "endpoint": "/sms/messages",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "tracking_events_read, sms_read",
+        "description": "Lists all SMS messages.",
+        "name": "listSmsMessages"
+    },
+    {
+        "endpoint": "/sms/messages/{messageKey}",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "sms_send",
+        "description": "Sends a specific SMS message.",
+        "name": "sendSmsMessage"
+    },
+    {
+        "endpoint": "/sms/messages",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "sms_send",
+        "description": "Sends multiple SMS messages.",
+        "name": "sendMultipleSmsMessages"
+    },
+    {
+        "endpoint": "/platform/v1/key",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "file_location_create",
+        "description": "Creates an encryption key.",
+        "name": "createEncryptionKey"
+    },
+    {
+        "endpoint": "/platform/v1/key",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "file_location_view",
+        "description": "Lists encryption keys.",
+        "name": "listEncryptionKeys"
+    },
+    {
+        "endpoint": "/platform/v1/key/{keyId}",
+        "method": "DELETE",
+        "api_permission_scope": "file_location_delete",
+        "description": "Deletes a specific encryption key.",
+        "name": "deleteEncryptionKey"
+    },
+    {
+        "endpoint": "/hub/v1/campaigns",
+        "method": "GET",
+        "api_permission_scope": "campaign_read",
+        "description": "Lists all campaigns.",
+        "name": "listCampaigns"
+    },
+    {
+        "endpoint": "/hub/v1/campaigns/{id}",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "campaign_read",
+        "description": "Retrieves a specific campaign.",
+        "name": "getCampaign"
+    },
+    {
+        "endpoint": "/asset/v1/content/assets/{id}",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "campaign_read",
+        "description": "Get properties for a specific asset.",
+        "name": "getContentAsset"
+    },
+    {
+        "endpoint": "/asset/v1/content/assets/",
+        "method": "GET",
+        "fields": "id,customerKey,category,name",
+        "order_by": "name",
+        "filter": "",
+        "api_permission_scope": "campaign_read",
+        "description": "Lists assets for a specific campaign.",
+        "name": "listContentAssets"
+    },
+    {
+        "endpoint": "/hub/v1/campaigns/{id}/assets",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "campaign_read",
+        "description": "Lists assets for a specific campaign.",
+        "": "id,customerKey,category,name",
+        "name": "listCampaignAssets"
+    },
+    {
+        "endpoint": "/hub/v1/campaigns/{id}/assets/{assetId}",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "campaign_read",
+        "description": "Retrieves a specific campaign asset.",
+        "name": "getCampaignAsset"
+    },
+    {
+        "endpoint": "/sms/v1/automation/importSend",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "automations_read",
+        "description": "Initiates an automation import for SMS.",
+        "name": "initiateSmsAutomationImport"
+    },
+    {
+        "endpoint": "/sms/v1/contacts/queueImport/{id}",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "automations_read",
+        "description": "Queues a contact import for SMS.",
+        "name": "queueSmsContactImport"
+    },
+    {
+        "endpoint": "/hub/v1/campaigns/{id}",
+        "method": "DELETE",
+		"fields":"",
+        "api_permission_scope": "campaign_write",
+        "description": "Deletes a specific campaign.",
+        "name": "deleteCampaign"
+    },
+    {
+        "endpoint": "/messaging/v1/domainverification",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "email_write",
+        "description": "Retrieves domain verification details (admin).",
+        "name": "getAdminDomainVerification"
+    },
+    {
+        "endpoint": "/messaging/v1/domainverification",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "email_write",
+        "description": "Creates a domain verification (admin).",
+        "name": "createAdminDomainVerification"
+    },
+    {
+        "endpoint": "/messaging/v1/domainverification/bulk/insert",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "email_write",
+        "description": "Inserts multiple domain verifications (admin).",
+        "name": "bulkInsertAdminDomainVerification"
+    },
+    {
+        "endpoint": "/messaging/v1/domainverification/update",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "email_write",
+        "description": "Updates a domain verification (admin).",
+        "name": "updateAdminDomainVerification"
+    },
+    {
+        "endpoint": "/messaging/v1/domainverification/delete",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "email_write",
+        "description": "Deletes a domain verification (admin).",
+        "name": "deleteAdminDomainVerification"
+    },
+    {
+        "endpoint": "/messaging/v1/domainverification/push",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "email_write",
+        "description": "Pushes a domain verification (admin).",
+        "name": "pushAdminDomainVerification"
+    },
+    {
+        "endpoint": "/sms/v1/automation/importSend/{tokenid}/status",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "sms_read",
+        "description": "Checks the status of an SMS automation import.",
+        "name": "getSmsAutomationImportStatus"
+    },
+    {
+        "endpoint": "/sms/v1/contacts/queueImport/{id}/status/{tokenId}",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "sms_read",
+        "description": "Checks the status of a queued SMS contact import.",
+        "name": "getQueuedSmsContactImportStatus"
+    },
+    {
+        "endpoint": "/sms/v1/contacts/refreshList/{id}/status/{tokenId}",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "sms_read",
+        "description": "Checks the status of an SMS contact list refresh.",
+        "name": "getSmsContactListRefreshStatus"
+    },
+    {
+        "endpoint": "/sms/v1/messageContact/{messageId}/deliveries/{tokenId}",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "sms_read",
+        "description": "Retrieves delivery details for an SMS message contact.",
+        "name": "getSmsMessageContactDeliveries"
+    },
+    {
+        "endpoint": "/sms/v1/messageContact/{messageId}/history/{tokenId}/mobile",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "sms_read",
+        "description": "Retrieves history for an SMS message contact.",
+        "name": "getSmsMessageContactHistory"
+    },
+    {
+        "endpoint": "/sms/v1/messageList/{id}/deliveries/{tokenId}",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "sms_read",
+        "description": "Retrieves delivery details for an SMS message list.",
+        "name": "getSmsMessageListDeliveries"
+    },
+    {
+        "endpoint": "/sms/v1/queueMO/deliveries/{tokenId}",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "sms_read",
+        "description": "Retrieves mobile-originated SMS delivery details.",
+        "name": "getMobileOriginatedSmsDeliveries"
+    },
+    {
+        "endpoint": "/sms/v1/queueMO/history/{tokenId}",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "sms_read",
+        "description": "Retrieves mobile-originated SMS history.",
+        "name": "getMobileOriginatedSmsHistory"
+    },
+    {
+        "endpoint": "/sms/v1/automation/importSend",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "sms_read",
+        "description": "Initiates an SMS automation import.",
+        "name": "initiateSmsAutomationImport"
+    },
+    {
+        "endpoint": "/sms/v1/automation/importSend/{id}/deliveryReport",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "sms_read",
+        "description": "Generates a delivery report for an SMS automation import.",
+        "name": "generateSmsAutomationDeliveryReport"
+    },
+    {
+        "endpoint": "/sms/v1/contacts/queueImport/{id}",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "sms_read",
+        "description": "Queues a contact import for SMS.",
+        "name": "queueSmsContactImport"
+    },
+    {
+        "endpoint": "/sms/v1/contacts/refreshList/{id}",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "sms_read",
+        "description": "Refreshes an SMS contact list.",
+        "name": "refreshSmsContactList"
+    },
+    {
+        "endpoint": "/sms/v1/contacts/subscriptions",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "sms_read",
+        "description": "Manages SMS contact subscriptions.",
+        "name": "manageSmsContactSubscriptions"
+    },
+    {
+        "endpoint": "/sms/v1/messageList/{id}/deliveryReport/{tokenId}",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "sms_read",
+        "description": "Generates a delivery report for an SMS message list.",
+        "name": "generateSmsMessageListDeliveryReport"
+    },
+    {
+        "endpoint": "/sms/v1/keyword/{keyword}/{longCode}",
+        "method": "DELETE",
+		"fields":"",
+        "api_permission_scope": "sms_write",
+        "description": "Deletes an SMS keyword by long code.",
+        "name": "deleteSmsKeywordByLongCode"
+    },
+    {
+        "endpoint": "/sms/v1/keyword/{keyword}/{shortCode}/{countryCode}",
+        "method": "DELETE",
+		"fields":"",
+        "api_permission_scope": "sms_write",
+        "description": "Deletes an SMS keyword by short code and country code.",
+        "name": "deleteSmsKeywordByShortCode"
+    },
+    {
+        "endpoint": "/sms/v1/keyword/{keywordId}",
+        "method": "DELETE",
+		"fields":"",
+        "api_permission_scope": "sms_write",
+        "description": "Deletes an SMS keyword by ID.",
+        "name": "deleteSmsKeywordById"
+    },
+    {
+        "endpoint": "/sms/v1/keyword",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "sms_write",
+        "description": "Creates an SMS keyword.",
+        "name": "createSmsKeyword"
+    },
+    {
+        "endpoint": "/sms/v1/message/optin",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "sms_write",
+        "description": "Manages SMS opt-in settings.",
+        "name": "manageSmsOptIn"
+    },
+    {
+        "endpoint": "/sms/v1/messageContact/{messageId}/deliveries/{tokenId}",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "sms_send",
+        "description": "Retrieves delivery details for an SMS message contact.",
+        "name": "getSmsMessageContactDeliveries"
+    },
+    {
+        "endpoint": "/sms/v1/automation/importSend",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "sms_send",
+        "description": "Initiates an SMS automation import for sending.",
+        "name": "initiateSmsAutomationSend"
+    },
+    {
+        "endpoint": "/sms/v1/messageContact/{id}/send",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "sms_send",
+        "description": "Sends an SMS message to a contact.",
+        "name": "sendSmsToContact"
+    },
+    {
+        "endpoint": "/sms/v1/messageList/{id}/send",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "sms_send",
+        "description": "Sends an SMS message to a list.",
+        "name": "sendSmsToList"
+    },
+    {
+        "endpoint": "/sms/v1/queueMO",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "sms_send",
+        "description": "Queues a mobile-originated SMS message.",
+        "name": "queueMobileOriginatedSms"
+    },
+    {
+        "endpoint": "/sms/v1/keyword/{keywordId}",
+        "method": "DELETE",
+		"fields":"",
+        "api_permission_scope": "sms_write",
+        "description": "Deletes an SMS keyword by ID.",
+        "name": "deleteSmsKeywordById"
+    },
+    {
+        "endpoint": "/sms/v1/keyword",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "sms_write",
+        "description": "Creates an SMS keyword from a message template.",
+        "name": "createSmsKeywordFromTemplate"
+    },
+    {
+        "endpoint": "/contacts/v1/attributeSetDefinitions/{id}",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_read",
+        "description": "Retrieves a specific attribute set definition.",
+        "name": "getAttributeSetDefinition"
+    },
+    {
+        "endpoint": "/contacts/v1/attributeSets/name:{name}",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_read",
+        "description": "Retrieves an attribute set by name.",
+        "name": "getAttributeSetByName"
+    },
+    {
+        "endpoint": "/contacts/v1/contacts/actions/delete/status?operationID=",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_read",
+        "description": "Checks the status of a contact deletion operation.",
+        "name": "getContactDeletionStatus"
+    },
+    {
+        "endpoint": "/contacts/v1/contacts/actions/restrict/status?operationID=",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_read",
+        "description": "Checks the status of a contact restriction operation.",
+        "name": "getContactRestrictionStatus"
+    },
+    {
+        "endpoint": "/contacts/v1/contacts/analytics/deleterequests/summary",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_read",
+        "description": "Retrieves a summary of contact deletion requests.",
+        "name": "getContactDeletionSummary"
+    },
+    {
+        "endpoint": "/contacts/v1/contacts/analytics/deleterequests",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_read",
+        "description": "Lists contact deletion requests.",
+        "name": "listContactDeletionRequests"
+    },
+    {
+        "endpoint": "/contacts/v1/contacts/deleteOperations",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_read",
+        "description": "Lists contact deletion operations.",
+        "name": "listContactDeletionOperations"
+    },
+    {
+        "endpoint": "/contacts/v1/customObject/{id}/isUsedInContacts",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_read",
+        "description": "Checks if a custom object is used in contacts.",
+        "name": "checkCustomObjectInContacts"
+    },
+    {
+        "endpoint": "/contacts/v1/customobjectfield/{id}/relationships",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_read",
+        "description": "Retrieves relationships for a custom object field.",
+        "name": "getCustomObjectFieldRelationships"
+    },
+    {
+        "endpoint": "/contacts/v1/schema",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_read",
+        "description": "Retrieves the contact schema.",
+        "name": "getContactSchema"
+    },
+    {
+        "endpoint": "/contacts/v1/schemas/{schemaId}/attributeGroups",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_read",
+        "description": "Lists attribute groups for a schema.",
+        "name": "listSchemaAttributeGroups"
+    },
+    {
+        "endpoint": "/contacts/v1/schemas/{schemaId}/attributeGroups/{id}",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_read",
+        "description": "Retrieves a specific attribute group for a schema.",
+        "name": "getSchemaAttributeGroup"
+    },
+    {
+        "endpoint": "/contacts/v1/attributeSets/{id}",
+        "method": "PATCH",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_read",
+        "description": "Updates an attribute set.",
+        "name": "updateAttributeSet"
+    },
+    {
+        "endpoint": "/contacts/v1/contacts",
+        "method": "PATCH",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_read",
+        "description": "Updates contact data.",
+        "name": "updateContactData"
+    },
+    {
+        "endpoint": "/contacts/v1/addresses/email/search",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_read",
+        "description": "Searches email addresses in contacts.",
+        "name": "searchContactEmailAddresses"
+    },
+    {
+        "endpoint": "/contacts/v1/attributes/search",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_read",
+        "description": "Searches attributes in contacts.",
+        "name": "searchContactAttributes"
+    },
+    {
+        "endpoint": "/contacts/v1/contacts/preferences",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "Contacts_access",
+        "description": "Manages contact preferences.",
+        "name": "manageContactPreferences"
+    },
+    {
+        "endpoint": "/contacts/v1/contacts/id:{contactId}/Preferences",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "Contacts_access",
+        "description": "Sets preferences for a specific contact by ID.",
+        "name": "setContactPreferencesById"
+    },
+    {
+        "endpoint": "/contacts/v1/contacts/id:{contactId}/Preferences",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "Contacts_access",
+        "description": "Retrieves preferences for a specific contact by ID.",
+        "name": "getContactPreferencesById"
+    },
+    {
+        "endpoint": "/contacts/v1/contacts/preferences/search?ReferenceType={ReferenceType}",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "Contacts_access",
+        "description": "Searches contact preferences by reference type.",
+        "name": "searchContactPreferencesByType"
+    },
+    {
+        "endpoint": "/contacts/v1/contacts/key:{contactKey}/Preferences",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "Contacts_access",
+        "description": "Retrieves preferences for a specific contact by key.",
+        "name": "getContactPreferencesByKey"
+    },
+    {
+        "endpoint": "/interaction/v1/events",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_read",
+        "description": "Triggers a custom event for contacts.",
+        "name": "triggerContactCustomEvent"
+    },
+    {
+        "endpoint": "/contacts/v1/attributeSets/{id}",
+        "method": "PATCH",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_write",
+        "description": "Updates an attribute set for contacts.",
+        "name": "updateContactAttributeSet"
+    },
+    {
+        "endpoint": "/contacts/v1/contacts",
+        "method": "PATCH",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_write",
+        "description": "Updates contact data.",
+        "name": "updateContactData"
+    },
+    {
+        "endpoint": "/contacts/v1/addresses/email/search",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_write",
+        "description": "Searches email addresses for adding contacts.",
+        "name": "searchEmailAddressesForContactAdd"
+    },
+    {
+        "endpoint": "/contacts/v1/attributeGroups/population",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_write",
+        "description": "Populates attribute groups for contacts.",
+        "name": "populateContactAttributeGroups"
+    },
+    {
+        "endpoint": "/contacts/v1/attributes/search",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_write",
+        "description": "Searches attributes for adding contacts.",
+        "name": "searchAttributesForContactAdd"
+    },
+    {
+        "endpoint": "/contacts/v1/attributeSets/{id}",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_write",
+        "description": "Creates an attribute set for contacts.",
+        "name": "createContactAttributeSet"
+    },
+    {
+        "endpoint": "/contacts/v1/contactEvents",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_write",
+        "description": "Creates contact events.",
+        "name": "createContactEvents"
+    },
+    {
+        "endpoint": "/contacts/v1/contacts",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_write",
+        "description": "Creates new contacts.",
+        "name": "createContacts"
+    },
+    {
+        "endpoint": "/contacts/v1/contacts/actions/delete?type=ids",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_write",
+        "description": "Deletes contacts by IDs.",
+        "name": "deleteContactsByIds"
+    },
+    {
+        "endpoint": "/contacts/v1/contacts/actions/delete?type=keys",
+        "method": "POST",
+		"fields":"",
+        "api_permission_scope": "list_and_subscribers_write",
+        "description": "Deletes contacts by keys.",
+        "name": "deleteContactsByKeys"
+    }
+]

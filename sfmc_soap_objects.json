@@ -1,0 +1,597 @@
+[
+    {
+        "name": "Account",
+        "fields": ["ID", "AccountType", "CustomerKey", "Name", "Email", "ParentAccountID", "BrandID", "PrivateLabelID", "Address"],
+        "description": "Represents a Marketing Cloud account."
+    },
+    {
+        "name": "AccountDataItem",
+        "fields": ["Key", "Value", "Description"],
+        "description": "Stores data specific to an account."
+    },
+    {
+        "name": "AccountPrivateLabel",
+        "fields": ["Name", "Domain", "LogoURL", "IsActive", "PrivateLabelID"],
+        "description": "Manages private label settings for an account."
+    },
+    {
+        "name": "AccountTypeEnum",
+        "fields": ["Value"],
+        "description": "Enumerates types of accounts."
+    },
+    {
+        "name": "AccountUser",
+        "fields": ["ID", "Email", "Name", "UserID", "Password", "IsActive", "RoleID"],
+        "description": "Represents a user within an account."
+    },
+    {
+        "name": "AddressStatus",
+        "fields": ["Address", "Status", "StatusMessage"],
+        "description": "Tracks the status of an address."
+    },
+    {
+        "name": "APIObject",
+        "fields": ["ObjectID", "CustomerKey", "CreatedDate", "ModifiedDate", "Client"],
+        "description": "Base object for API interactions."
+    },
+    {
+        "name": "APIProperty",
+        "fields": ["Name", "Value", "PropertyType"],
+        "description": "Stores custom properties for API objects."
+    },
+    {
+        "name": "AsyncRequestResult",
+        "fields": ["Status", "RequestID", "ResultType", "ResultDetailXML"],
+        "description": "Represents the result of an asynchronous request."
+    },
+    {
+        "name": "AsyncResponse",
+        "fields": ["ResponseType", "ResponseAddress", "ResponseData"],
+        "description": "Handles responses for asynchronous operations."
+    },
+    {
+        "name": "AsyncResponseType",
+        "fields": ["Value"],
+        "description": "Defines types of asynchronous responses."
+    },
+    {
+        "name": "Attribute",
+        "fields": ["Name", "Value", "DataType"],
+        "description": "Represents a subscriber attribute."
+    },
+    {
+        "name": "AttributeMap",
+        "fields": ["EntityName", "ColumnName", "ColumnValue", "AttributeID"],
+        "description": "Maps attributes for subscribers."
+    },
+    {
+        "name": "AudienceItem",
+        "fields": ["ListID", "ListKey", "ListName", "ListType"],
+        "description": "Represents an audience segment."
+    },
+    {
+        "name": "Authentication",
+        "fields": ["UserName", "Password", "AuthenticationType"],
+        "description": "Handles authentication details."
+    },
+    {
+        "name": "Automation",
+        "fields": ["Name", "CustomerKey", "Status", "Description", "Schedule", "AutomationType"],
+        "description": "Represents an automation workflow."
+    },
+    {
+        "name": "AutomationActivity",
+        "fields": ["ActivityID", "Name", "ActivityType", "Description", "IsActive"],
+        "description": "Defines an activity within an automation."
+    },
+    {
+        "name": "AutomationActivityInstance",
+        "fields": ["ActivityInstanceID", "Status", "StartTime", "EndTime"],
+        "description": "Represents an instance of an automation activity."
+    },
+    {
+        "name": "AutomationInstance",
+        "fields": ["InstanceID", "AutomationID", "Status", "StartTime", "EndTime"],
+        "description": "Tracks a specific automation instance."
+    },
+    {
+        "name": "AutomationInstances",
+        "fields": ["InstanceID", "AutomationID"],
+        "description": "Collection of automation instances."
+    },
+    {
+        "name": "AutomationNotification",
+        "fields": ["Address", "Body", "NotificationType"],
+        "description": "Manages notifications for automations."
+    },
+    {
+        "name": "AutomationSource",
+        "fields": ["SourceType", "SourceID", "SourceName"],
+        "description": "Defines the source for an automation."
+    },
+    {
+        "name": "AutomationTask",
+        "fields": ["TaskID", "Name", "Activity"],
+        "description": "Represents a task within an automation."
+    },
+    {
+        "name": "AutomationTaskInstance",
+        "fields": ["TaskInstanceID", "Status", "StartTime", "EndTime"],
+        "description": "Tracks an instance of an automation task."
+    },
+    {
+        "name": "BaseMOKeyword",
+        "fields": ["Keyword", "ResponseMessage", "IsActive"],
+        "description": "Base object for mobile-originated keywords."
+    },
+    {
+        "name": "BounceEvent",
+        "fields": ["SendID", "SubscriberKey", "EventDate", "BounceType", "BounceCategory", "SMTPCode"],
+        "description": "Represents a bounce event from an email send."
+    },
+    {
+        "name": "BusinessUnit",
+        "fields": ["ID", "Name", "CustomerKey", "ParentID", "Email"],
+        "description": "Represents a business unit in Marketing Cloud."
+    },
+    {
+        "name": "Campaign",
+        "fields": ["ID", "Name", "Code", "Description", "CreatedDate"],
+        "description": "Manages marketing campaigns."
+    },
+    {
+        "name": "CampaignPerformOptions",
+        "fields": ["CampaignID", "Options", "StartDate", "EndDate"],
+        "description": "Defines performance options for campaigns."
+    },
+    {
+        "name": "Certificate",
+        "fields": ["CertificateName", "CertificateKey", "ExpirationDate"],
+        "description": "Handles certificates for secure communications."
+    },
+    {
+        "name": "ClickEvent",
+        "fields": ["SendID", "SubscriberKey", "URL", "EventDate", "LinkName"],
+        "description": "Represents a click event from an email send."
+    },
+    {
+        "name": "ClientID",
+        "fields": ["ClientID", "PartnerClientKey", "BusinessUnitID"],
+        "description": "Identifies a client in the API context."
+    },
+    {
+        "name": "ComplexFilterPart",
+        "fields": ["LeftOperand", "LogicalOperator", "RightOperand", "FilterType"],
+        "description": "Defines complex filters for data retrieval."
+    },
+    {
+        "name": "CompressionConfiguration",
+        "fields": ["CompressionType", "CompressionLevel", "FileSpec"],
+        "description": "Manages compression settings for data."
+    },
+    {
+        "name": "CompressionEncoding",
+        "fields": ["EncodingType"],
+        "description": "Specifies encoding for compressed data."
+    },
+    {
+        "name": "CompressionType",
+        "fields": ["Value"],
+        "description": "Defines types of compression."
+    },
+    {
+        "name": "ConfigureOptions",
+        "fields": ["Action", "Options", "Priority"],
+        "description": "Options for configuring API calls."
+    },
+    {
+        "name": "ConfigureResult",
+        "fields": ["Status", "ErrorMessage", "ResultCode"],
+        "description": "Result of a configuration operation."
+    },
+    {
+        "name": "ContactEvent",
+        "fields": ["ContactID", "EventType", "EventDate", "EventData"],
+        "description": "Tracks events related to contacts."
+    },
+    {
+        "name": "ContainerID",
+        "fields": ["ContainerID"],
+        "description": "Identifies a container for content."
+    },
+    {
+        "name": "ContentArea",
+        "fields": ["Name", "Content", "Key", "CategoryID"],
+        "description": "Represents a content area in an email."
+    },
+    {
+        "name": "ContentValidation",
+        "fields": ["ValidationID", "ContentID", "ValidationType"],
+        "description": "Validates content for use in emails."
+    },
+    {
+        "name": "ContentValidationResult",
+        "fields": ["ValidationID", "Result", "ErrorMessage"],
+        "description": "Result of content validation."
+    },
+    {
+        "name": "ContentValidationTaskResult",
+        "fields": ["TaskID", "Result", "ErrorMessage"],
+        "description": "Result of a content validation task."
+    },
+    {
+        "name": "CreateOptions",
+        "fields": ["Container", "SaveOptions", "RequestType"],
+        "description": "Options for creating API objects."
+    },
+    {
+        "name": "CreateResult",
+        "fields": ["NewID", "StatusCode", "StatusMessage", "NewObjectID"],
+        "description": "Result of a create operation."
+    },
+    {
+        "name": "DailyRecurrence",
+        "fields": ["StartDateTime", "RecurrenceInterval", "EndDateTime"],
+        "description": "Defines daily recurrence for scheduling."
+    },
+    {
+        "name": "DailyRecurrencePatternTypeEnum",
+        "fields": ["Value"],
+        "description": "Enumerates daily recurrence patterns."
+    },
+    {
+        "name": "DataExtension",
+        "fields": ["CustomerKey", "Name", "IsSendable", "IsTestable","CategoryID"],
+        "description": "Represents a data extension for storing custom data."
+    },
+    {
+        "name": "DataExtensionCreateResult",
+        "fields": ["NewID", "StatusCode", "ErrorMessage", "NewObjectID"],
+        "description": "Result of creating a data extension."
+    },
+    {
+        "name": "DataExtensionDeleteResult",
+        "fields": ["StatusCode", "ErrorMessage", "ObjectID"],
+        "description": "Result of deleting a data extension."
+    },
+    {
+        "name": "DataExtensionError",
+        "fields": ["ErrorCode", "ErrorMessage", "ObjectType"],
+        "description": "Tracks errors related to data extensions."
+    },
+    {
+        "name": "DataExtensionField",
+        "fields": ["Name", "FieldType", "IsPrimaryKey", "MaxLength", "IsRequired"],
+        "description": "Defines a field in a data extension."
+    },
+    {
+        "name": "DataExtensionFieldType",
+        "fields": ["Value"],
+        "description": "Enumerates field types for data extensions."
+    },
+    {
+        "name": "DataExtensionObject",
+        "fields": ["CustomerKey", "Properties", "ObjectID"],
+        "description": "Represents a data extension object."
+    },
+    {
+        "name": "DataExtensionTemplate",
+        "fields": ["Name", "Description", "TemplateType"],
+        "description": "Template for creating data extensions."
+    },
+    {
+        "name": "DataExtensionUpdateResult",
+        "fields": ["StatusCode", "ErrorMessage", "ObjectID"],
+        "description": "Result of updating a data extension."
+    },
+    {
+        "name": "DataExtractActivity",
+        "fields": ["ExtractID", "Name", "ExtractType", "FileSpec"],
+        "description": "Manages data extract activities."
+    },
+    {
+        "name": "DataFolder",
+        "fields": ["Name", "ObjectID", "CustomerKey", "ID", "ParentFolder.ObjectID", "ParentFolder.Name", "ParentFolder.ContentType", "ParentFolder.CustomerKey"],
+        "description": "Organizes data in folders."
+    },
+    {
+        "name": "DataSourceTypeEnum",
+        "fields": ["Value"],
+        "description": "Enumerates types of data sources."
+    },
+    {
+        "name": "DateTimeUnitOfMeasure",
+        "fields": ["Value"],
+        "description": "Defines units for date-time measurements."
+    },
+    {
+        "name": "DayOfWeekEnum",
+        "fields": ["Value"],
+        "description": "Enumerates days of the week."
+    },
+    {
+        "name": "DeleteOptions",
+        "fields": ["DeleteAction", "Options"],
+        "description": "Options for deleting API objects."
+    },
+    {
+        "name": "DeleteResult",
+        "fields": ["StatusCode", "ErrorMessage", "ObjectID"],
+        "description": "Result of a delete operation."
+    },
+    {
+        "name": "DeliveryProfile",
+        "fields": ["Name", "DomainType", "SourceAddressType", "HeaderContent", "FooterContent"],
+        "description": "Manages delivery settings for sends."
+    },
+    {
+        "name": "DeliveryProfileDomainTypeEnum",
+        "fields": ["Value"],
+        "description": "Enumerates domain types for delivery profiles."
+    },
+    {
+        "name": "DeliveryProfileSourceAddressTypeEnum",
+        "fields": ["Value"],
+        "description": "Enumerates source address types for delivery profiles."
+    },
+    {
+        "name": "DoubleOptInMoKeyword",
+        "fields": ["Keyword", "ResponseMessage", "IsActive"],
+        "description": "Manages double opt-in mobile keywords."
+    },
+    {
+        "name": "Email",
+        "fields": ["ID", "Name", "Subject", "HTMLBody", "CharacterSet", "TextBody", "EmailType"],
+        "description": "Represents an email object for creation or sending."
+    },
+    {
+        "name": "EmailAddress",
+        "fields": ["EmailAddress", "Type"],
+        "description": "Represents an email address."
+    },
+    {
+        "name": "EmailSendDefinition",
+        "fields": ["Name", "EmailID", "SendClassification", "Audience", "DeliveryProfile"],
+        "description": "Defines an email send configuration."
+    },
+    {
+        "name": "EmailType",
+        "fields": ["Value"],
+        "description": "Enumerates types of emails."
+    },
+    {
+        "name": "EventType",
+        "fields": ["Value"],
+        "description": "Enumerates types of events."
+    },
+    {
+        "name": "ExecuteRequest",
+        "fields": ["Action", "Parameters", "Client"],
+        "description": "Represents a request to execute an action."
+    },
+    {
+        "name": "ExecuteResponse",
+        "fields": ["StatusCode", "Results", "ErrorMessage"],
+        "description": "Response for an executed action."
+    },
+    {
+        "name": "ExtractDefinition",
+        "fields": ["Name", "CustomerKey", "ExtractType", "FileSpec"],
+        "description": "Defines a data extract process."
+    },
+    {
+        "name": "ExtractDescription",
+        "fields": ["Description", "ExtractID", "Parameters"],
+        "description": "Describes a data extract."
+    },
+    {
+        "name": "ExtractOptions",
+        "fields": ["Parameters", "OutputFileName"],
+        "description": "Options for data extract processes."
+    },
+    {
+        "name": "ExtractParameter",
+        "fields": ["Name", "Value", "DataType"],
+        "description": "Parameters for a data extract."
+    },
+    {
+        "name": "ExtractParameterDataType",
+        "fields": ["Value"],
+        "description": "Enumerates data types for extract parameters."
+    },
+    {
+        "name": "ExtractParameterDescription",
+        "fields": ["Name", "Description", "DataType"],
+        "description": "Describes an extract parameter."
+    },
+    {
+        "name": "ExtractRequest",
+        "fields": ["RequestID", "Parameters", "ExtractDefinition"],
+        "description": "Represents a data extract request."
+    },
+    {
+        "name": "ExtractResult",
+        "fields": ["StatusCode", "Result", "ErrorMessage"],
+        "description": "Result of a data extract operation."
+    },
+    {
+        "name": "ExtractTemplate",
+        "fields": ["Name", "Description", "TemplateType"],
+        "description": "Template for data extracts."
+    },
+    {
+        "name": "FieldMap",
+        "fields": ["SourceField", "DestinationField", "FieldType"],
+        "description": "Maps fields for data operations."
+    },
+    {
+        "name": "FileTransferActivity",
+        "fields": ["Name", "FileSpec", "FileTransferLocation", "IsUpload"],
+        "description": "Manages file transfer activities."
+    },
+    {
+        "name": "FileTransferLocation",
+        "fields": ["Name", "LocationType", "FilePath"],
+        "description": "Defines a location for file transfers."
+    },
+    {
+        "name": "FileTrigger",
+        "fields": ["FileName", "TriggerType", "LastPullDate"],
+        "description": "Triggers actions based on file events."
+    },
+    {
+        "name": "FileTriggerTypeLastPull",
+        "fields": ["LastPullDate"],
+        "description": "Tracks last pull for file triggers."
+    },
+    {
+        "name": "FileType",
+        "fields": ["Value"],
+        "description": "Enumerates types of files."
+    },
+    {
+        "name": "FilterActivity",
+        "fields": ["FilterID", "Name", "FilterDefinition"],
+        "description": "Manages filter activities for data."
+    },
+    {
+        "name": "FilterDefinition",
+        "fields": ["Name", "Key", "DataSource", "Filter"],
+        "description": "Defines a filter for data operations."
+    },
+    {
+        "name": "FilterPart",
+        "fields": ["FilterType", "Value", "Operator"],
+        "description": "Part of a filter definition."
+    },
+    {
+        "name": "Folder",
+        "fields": ["ID", "Name", "ParentFolderID", "ContentType", "IsActive"],
+        "description": "Organizes content in folders."
+    },
+    {
+        "name": "ForwardedEmailEvent",
+        "fields": ["SendID", "SubscriberKey", "EventDate", "ForwardedTo"],
+        "description": "Tracks forwarded email events."
+    },
+    {
+        "name": "ForwardedEmailOptInEvent",
+        "fields": ["SendID", "SubscriberKey", "EventDate", "OptInStatus"],
+        "description": "Tracks opt-in events from forwarded emails."
+    },
+    {
+        "name": "GlobalUnsubscribeCategory",
+        "fields": ["Name", "CategoryID", "Description"],
+        "description": "Manages global unsubscribe categories."
+    },
+    {
+        "name": "Group",
+        "fields": ["ID", "Name", "GroupType"],
+        "description": "Represents a group of subscribers."
+    },
+    {
+        "name": "GroupDefinition",
+        "fields": ["Name", "DefinitionID", "FilterDefinition"],
+        "description": "Defines a group of subscribers."
+    },
+    {
+        "name": "HelpMOKeyword",
+        "fields": ["Keyword", "ResponseMessage", "IsActive"],
+        "description": "Manages help-related mobile keywords."
+    },
+    {
+        "name": "HourlyRecurrence",
+        "fields": ["StartDateTime", "RecurrenceInterval", "EndDateTime"],
+        "description": "Defines hourly recurrence for scheduling."
+    },
+    {
+        "name": "HourlyRecurrencePatternTypeEnum",
+        "fields": ["Value"],
+        "description": "Enumerates hourly recurrence patterns."
+    },
+    {
+        "name": "ImportDefinition",
+        "fields": ["Name", "CustomerKey", "FileSpec", "DestinationObject", "UpdateType"],
+        "description": "Defines an import process for data."
+    },
+    {
+        "name": "ImportDefinitionAutoGenerateDestination",
+        "fields": ["DestinationObject", "ObjectType"],
+        "description": "Auto-generates destinations for imports."
+    },
+    {
+        "name": "ImportDefinitionColumnBasedAction",
+        "fields": ["ColumnName", "ActionType", "Value"],
+        "description": "Defines column-based actions for imports."
+    },
+    {
+        "name": "ImportDefinitionColumnBasedActionType",
+        "fields": ["Value"],
+        "description": "Enumerates column-based action types for imports."
+    },
+    {
+        "name": "ImportDefinitionFieldMap",
+        "fields": ["SourceField", "DestinationField", "FieldType"],
+        "description": "Maps fields for import definitions."
+    },
+    {
+        "name": "ImportDefinitionFieldMappingType",
+        "fields": ["Value"],
+        "description": "Enumerates field mapping types for imports."
+    },
+    {
+        "name": "ImportDefinitionSubscriberImportType",
+        "fields": ["Value"],
+        "description": "Enumerates subscriber import types."
+    },
+    {
+        "name": "ImportDefinitionUpdateType",
+        "fields": ["Value"],
+        "description": "Enumerates update types for imports."
+    },
+    {
+        "name": "ImportResultsSummary",
+        "fields": ["ImportID", "SuccessCount", "ErrorCount", "TotalRows"],
+        "description": "Summarizes results of an import."
+    },
+    {
+        "name": "IntegrationProfile",
+        "fields": ["ProfileID", "Name", "Description"],
+        "description": "Manages integration profiles."
+    },
+    {
+        "name": "IntegrationProfileDefinition",
+        "fields": ["ProfileID", "Definition", "Configuration"],
+        "description": "Defines an integration profile."
+    },
+    {
+        "name": "InteractionBaseObject",
+        "fields": ["InteractionID", "Name", "InteractionType"],
+        "description": "Base object for interactions."
+    },
+    {
+        "name": "InteractionDefinition",
+        "fields": ["InteractionID", "Name", "Version", "WorkflowID"],
+        "description": "Defines an interaction in Journey Builder."
+    },
+    {
+        "name": "Layout",
+        "fields": ["LayoutName", "Content", "LayoutType"],
+        "description": "Defines layout for templates."
+    },
+    {
+        "name": "LayoutType",
+        "fields": ["Value"],
+        "description": "Enumerates types of layouts."
+    },
+    {
+        "name": "Link",
+        "fields": ["URL", "LinkName", "TrackingAlias"],
+        "description": "Represents a link in an email."
+    },
+    {
+        "name": "TriggeredSend",
+        "fields": ["Name", "CustomerKey", "CategoryID","Description","EmailSubject", "TriggeredSendStatus"],
+        "description": "Represents a list of subscribers."
+    }
+]
