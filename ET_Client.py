@@ -2,15 +2,94 @@ from zeep import Client, Settings
 from zeep.transports import Transport
 from zeep.plugins import HistoryPlugin
 from requests import Session
-import time, os
+import time, os, sys, json
 import logging
 from lxml import etree
-
+from typing import Tuple, Dict, Any, Optional
 import requests
 from zeep import xsd
 from requests.models import PreparedRequest
 
 logger = logging.getLogger(__name__)
+
+def load_config(config_path, key):
+    try:
+        with open(config_path, "r") as f:
+            conf_data = json.load(f)
+    except FileNotFoundError:
+        sys.exit(f"Config file not found: {config_path}")
+    except json.JSONDecodeError as e:
+        sys.exit(f"JSON parse error in {config_path}: {e}")
+
+    if str(key) not in conf_data:
+        sys.exit(f"Key '{key}' not found in {config_path}")
+
+    return conf_data[str(key)]
+
+def find_object_by_name(json_data: list[Dict[str, Any]], object_name: str) -> Optional[Dict[str, Any]]:
+    """
+    Find an element in a JSON array by matching the 'object_name' field.
+
+    Args:
+        json_data (list[Dict[str, Any]]): List of dictionaries containing object data.
+        object_name (str): The object_name to search for.
+
+    Returns:
+        Optional[Dict[str, Any]]: The matching dictionary if found, else None.
+    """
+    for item in json_data:
+        if item.get("name") == object_name:
+            return item
+    return None
+
+def load_lookup_lists() -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    """
+    Load REST and SOAP object lists from JSON files.
+
+    Returns:
+        Tuple[Dict[str, Any], Dict[str, Any]]: A tuple containing the REST and SOAP data dictionaries.
+
+    Raises:
+        SystemExit: If a file is not found or JSON parsing fails.
+    """
+    try:
+        # Load REST data
+        rest_config_path = 'sfmc_rest_objects.json'
+        with open(rest_config_path, 'r') as f:
+            rest_data = json.load(f)
+
+        # Load SOAP data
+        soap_config_path = 'sfmc_soap_objects.json'
+        with open(soap_config_path, 'r') as f:
+            soap_data = json.load(f)
+
+    except FileNotFoundError as e:
+        sys.exit(f"File not found: {e.filename}")
+    except json.JSONDecodeError as e:
+        sys.exit(f"JSON parse error in {e.filename}: {e.msg}")
+    
+    return rest_data, soap_data
+
+def folder_find_path(dfx, node_id):
+    path = []
+    while node_id is not None:
+        # Filter the DataFrame for the current node_id
+        node_df = dfx[dfx['ObjectID'] == node_id]
+        
+        # Check if the node exists
+        if node_df.empty:
+            break
+        
+        # Get the first row of the filtered DataFrame
+        node = node_df.iloc[0]
+        
+        # Append the name to the path
+        path.append(node['Name'])
+        
+        # Update node_id to the parent key if it exists
+        node_id = node['ParentFolder_ObjectID'] if pd.notna(node['ParentFolder_ObjectID']) else None
+    
+    return '/'.join(reversed(path))
 
 class TokenManager:
     def __init__(self, config = None):
@@ -49,7 +128,7 @@ class TokenManager:
 
     
 class ET_Client:
-    def __init__(self, config = None, mode = 'INFO'):
+    def __init__(self, config = None, key ='',  mode = 'INFO'):
 
         logger.debug("Initializing ET_Client with provided configuration")
 
@@ -59,14 +138,26 @@ class ET_Client:
                 config = {
                     'clientid': os.environ['SFMC_CLIENT_ID'],
                     'clientsecret': os.environ['SFMC_CLIENT_SECRET'],
-                    'authenticationurl': os.environ['SFMC_AUTH_URL'],
-                    'baseapiurl': os.environ['SFMC_REST_URL'],
-                    'defaultwsdl': os.environ['SFMC_WSDL_URL'],
-                    'soapendpoint': os.environ['SFMC_SOAP_ENDPOINT'],
+                    'defaultwsdl': 'https://webservice.exacttarget.com/etframework.wsdl',
+                    'authenticationurl': f'https://{os.environ['SFMC_AUTH_URL']}.auth.marketingcloudapis.com',
+                    'baseapiurl': f'https://{os.environ['SFMC_REST_URL']}.rest.marketingcloudapis.com',
+                    'soapendpoint': f'https://{os.environ['SFMC_SOAP_ENDPOINT']}.soap.marketingcloudapis.com/Service.asmx',
                     'accountId': os.environ.get('SFMC_ACCOUNT_ID')
                 }
             except KeyError as e:
                 raise Exception(f"Missing config key or environment variable: {str(e)}")
+        else:
+            json = load_config(config, key)  # Assuming config is a path to JSON file
+
+            config = {
+                    'clientid': json['sfmc_clientid'],
+                    'clientsecret': json['sfmc_clientsecret'],
+                    'defaultwsdl': 'https://webservice.exacttarget.com/etframework.wsdl',
+                    'authenticationurl': f'https://{json['orguniqueid']}.auth.marketingcloudapis.com',
+                    'baseapiurl': f'https://{json['orguniqueid']}.rest.marketingcloudapis.com',
+                    'soapendpoint': f'https://{json['orguniqueid']}.soap.marketingcloudapis.com/Service.asmx',
+                    'accountid': json['mid']
+                }
 
         self.config = config
         self.token_manager = TokenManager(config)
@@ -211,8 +302,10 @@ class ET_Client:
             else:
                 return data
 
-            if not morerow or 'count' not in data or len(data['items']) == 0:
+            if not morerow or data['count']<=(int(params.get('$page'))*int(params.get('$pagesize'))):
                 break
+            
+            logger.debug(f"Total: {data['count']}")
 
             page = int(params.get('$page', 1)) + 1
             params['$page'] = str(page)
