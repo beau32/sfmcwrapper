@@ -1,0 +1,232 @@
+[{
+    "name": "AB test",
+    "code": "ABTest"
+},
+{
+    "name": "Asset",
+    "code": "asset"
+},
+{
+    "name": "simple automated emails",
+    "code": "automated_email"
+},
+{
+    "name": "Automations",
+    "code": "automations"
+},
+{
+    "name": "Build audience activity",
+    "code": "BuildAudienceActivity"
+},
+{
+    "name": "Campaign",
+    "code": "campaign"
+},
+{
+    "name": "Condensed preview",
+    "code": "condensedlpview"
+},
+{
+    "name": "my contents",
+    "code": "content"
+},
+{
+    "name": "Contextual suppression list",
+    "code": "contextual_suppression_list"
+},
+{
+    "name": "Data extensions",
+    "code": "dataextension"
+},
+{
+    "name": "my documents",
+    "code": "document"
+},
+{
+    "name": "ELT activity",
+    "code": "ELTactivity"
+},
+{
+    "name": "my emails",
+    "code": "email"
+},
+{
+    "name": "Email hidden message model",
+    "code": "email_hidden_messagemodel"
+},
+{
+    "name": "Filter activities",
+    "code": "filteractivity"
+},
+{
+    "name": "Data Filters",
+    "code": "filterdefinition"
+},
+{
+    "name": "Global email",
+    "code": "global_email"
+},
+{
+    "name": "Global email subscribers",
+    "code": "global_email_sub"
+},
+{
+    "name": "my groups",
+    "code": "group"
+},
+{
+    "name": "Hidden",
+    "code": "Hidden"
+},
+{
+    "name": "my images",
+    "code": "image"
+},
+{
+    "name": "my tracking",
+    "code": "job"
+},
+{
+    "name": "my lists",
+    "code": "list"
+},
+{
+    "name": "Live content",
+    "code": "livecontent"
+},
+{
+    "name": "Measures",
+    "code": "measure"
+},
+{
+    "name": "Portfolio",
+    "code": "media"
+},
+{
+    "name": "Message",
+    "code": "message"
+},
+{
+    "name": "Microsites",
+    "code": "microsite"
+},
+{
+    "name": "Microsite layouts",
+    "code": "micrositelayout"
+},
+{
+    "name": "my subscribers",
+    "code": "mysubs"
+},
+{
+    "name": "Organizations",
+    "code": "organization"
+},
+{
+    "name": "Playbooks",
+    "code": "playbooks"
+},
+{
+    "name": "Programs",
+    "code": "programs2"
+},
+{
+    "name": "Publication lists",
+    "code": "publication"
+},
+{
+    "name": "Query Activity",
+    "code": "queryactivity"
+},
+{
+    "name": "Salesforce data extension",
+    "code": "salesforcedataextension"
+},
+{
+    "name": "Salesforce sends",
+    "code": "salesforcesends"
+},
+{
+    "name": "Salesforce sends v5",
+    "code": "salesforcesendsv5"
+},
+{
+    "name": "Shared content",
+    "code": "shared_content"
+},
+{
+    "name": "Shared contextual suppression list",
+    "code": "shared_contextual_suppression_list"
+},
+{
+    "name": "Shared data",
+    "code": "shared_data"
+},
+{
+    "name": "Shared data extensions",
+    "code": "shared_dataextension"
+},
+{
+    "name": "Shared email messages",
+    "code": "shared_email"
+},
+{
+    "name": "Shared items",
+    "code": "shared_item"
+},
+{
+    "name": "Shared portfolios",
+    "code": "shared_portfolio"
+},
+{
+    "name": "Shared publication lists",
+    "code": "shared_publication"
+},
+{
+    "name": "Shared Salesforce data extension",
+    "code": "shared_salesforcedataextension"
+},
+{
+    "name": "Shared suppression lists",
+    "code": "shared_suppression_list"
+},
+{
+    "name": "Shared surveys",
+    "code": "shared_survey"
+},
+{
+    "name": "Shared templates",
+    "code": "shared_template"
+},
+{
+    "name": "SSJS Activity",
+    "code": "ssjsactivity"
+},
+{
+    "name": "Suppression Lists",
+    "code": "suppression_list"
+},
+{
+    "name": "my surveys",
+    "code": "survey"
+},
+{
+    "name": "Synchronized Data Extension",
+    "code": "synchronizeddataextension"
+},
+{
+    "name": "my templates",
+    "code": "template"
+},
+{
+    "name": "Triggered sends",
+    "code": "triggered_send"
+},
+{
+    "name": "Triggered sends Journey Builder",
+    "code": "triggered_send_journeybuilder"
+},
+{
+    "name": "User-initiated sends",
+    "code": "userinitiatedsends"
+}]

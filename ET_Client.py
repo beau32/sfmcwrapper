@@ -9,6 +9,7 @@ from typing import Tuple, Dict, Any, Optional
 import requests
 from zeep import xsd
 from requests.models import PreparedRequest
+import pandas as pd
 
 logger = logging.getLogger(__name__)
 
@@ -63,12 +64,17 @@ def load_lookup_lists() -> Tuple[Dict[str, Any], Dict[str, Any]]:
         with open(soap_config_path, 'r') as f:
             soap_data = json.load(f)
 
+        # Load folder datatype
+        soap_config_path = 'datafolder_type.json'
+        with open(soap_config_path, 'r') as f:
+            datatype_data = json.load(f)
+
     except FileNotFoundError as e:
         sys.exit(f"File not found: {e.filename}")
     except json.JSONDecodeError as e:
         sys.exit(f"JSON parse error in {e.filename}: {e.msg}")
     
-    return rest_data, soap_data
+    return rest_data, soap_data, datatype_data
 
 def folder_find_path(dfx, node_id):
     path = []
@@ -242,6 +248,8 @@ class ET_Client:
             response = self.soap_client.service.Retrieve(req)
 
             all_results.extend(response.Results or [])
+        if response['OverallStatus'] not in ['OK', 'MoreDataAvailable']:
+            raise Exception(f"Retrieve failed with status: {response['OverallStatus']}")
         
         return type('RetrieveResponse', (), {
             'Results': all_results,
@@ -293,19 +301,23 @@ class ET_Client:
 
             url = f"{self.rest_instance_url}/{resourcepath.lstrip('/')}?{query}"
 
+            logger.debug("Fetching page %s with params: %s", url, query)
             response = requests.get(url, headers=headers)
             response.raise_for_status()
             data = response.json()
 
-            if 'items' in data:
+            if 'items' in data and len(data['items']) > 0:
                 all_data.extend(data['items'])
-            else:
-                return data
+            elif len(data)> 0:
+                return type('RetrieveResponse', (), {
+                    'Results': data,
+                    'OverallStatus': 'OK'
+                })()
 
             if not morerow or data['count']<=(int(params.get('$page'))*int(params.get('$pagesize'))):
                 break
             
-            logger.debug(f"Total: {data['count']}")
+            logger.debug("Total:  %s", data['count'])
 
             page = int(params.get('$page', 1)) + 1
             params['$page'] = str(page)
@@ -322,11 +334,13 @@ class ET_Client:
             "Authorization": f"Bearer {self.token_manager.get_token()}",
             "Content-Type": "application/json"
         }
+
         url = f"{self.rest_instance_url}{resource_path}"
         response = requests.post(url, headers=headers, json=payload)
         response.raise_for_status()
+
         return type('RetrieveResponse', (), {
-            'Results': response.josn(),
+            'Results': response.json(),
             'OverallStatus': 'OK'
         })()
 

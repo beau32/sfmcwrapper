@@ -181,7 +181,7 @@ def main():
         logger.error("Data error: %s", e)
 
     except Exception as e:
-        logger.error("An unexpected error occurred")
+        logger.error("An unexpected error occurred: %s", e)
         
 
 if __name__ == "__main__":
