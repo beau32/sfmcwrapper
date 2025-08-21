@@ -1,9 +1,13 @@
 import os, json, sys, argparse
 import pandas as pd
+import duckdb as db
+
+import xml.etree.ElementTree as ET
+import pandas as pd
 
 from ET_Client import ET_Client, folder_find_path, load_lookup_lists, find_object_by_name
 from zeep.helpers import serialize_object
-
+import logging as logger
 
 def fetching_soap(objectname, objectlist) -> list:
 
@@ -78,10 +82,12 @@ def save(response_fields, filename):
       dict_list = [serialize_object(obj) for obj in results]    
       df_objects=  pd.json_normalize(dict_list, sep='_')
       
+      if filename == 'DataFolder.csv':
+        df_objects['FullPath'] = df_objects.apply(lambda row: folder_find_path(df_objects, row['ParentFolder_ObjectID']), axis=1)
 
       df_clean = df_objects.replace(to_replace=['[]', '{}'], value=pd.NA)
       df_clean = df_objects.dropna(axis=1, how='all')
-      
+        
       os.makedirs(client.config['accountid']+"_csvexport", exist_ok=True)
       output_path = os.path.join(client.config['accountid'] +"_csvexport", filename)
       df_clean.to_csv(output_path,index=False)
@@ -101,18 +107,26 @@ def main():
   
   args = parser.parse_args()
   
+  logger.basicConfig(
+    level=logger.DEBUG if args.debug else logger.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+  )
+
   client = ET_Client(args.file, args.conf) if args.conf else ET_Client()
 
-  rest, soap = load_lookup_lists()
-  
-  if find_object_by_name(soap,args.objectname):
-    results =  fetching_soap(args.objectname, soap)
-  elif find_object_by_name(rest,args.objectname):
-    results = fetching_rest(args.objectname, rest)
-  else:
-    print(f"Object '{args.objectname}' not found in catalogs.")
+  rest, soap, datafolder = load_lookup_lists()
+  try:
+    if find_object_by_name(soap,args.objectname):
+      results =  fetching_soap(args.objectname, soap)
+    elif find_object_by_name(rest,args.objectname):
+      results = fetching_rest(args.objectname, rest)
+    else:
+      print(f"Object '{args.objectname}' not found in catalogs.")
+      return
+  except Exception as e:
+    print(f"An error occurred: {e}")
     return
-  
+    
   save(results,filename=f'{args.objectname}.csv')
   
 
