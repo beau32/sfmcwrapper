@@ -1,0 +1,16 @@
+{
+    "prod": {
+        "mid":"",
+        "mode": "",
+        "sfmc_clientid" : "",
+        "sfmc_clientsecret" : "",
+        "orguniqueid" : ""
+    },
+    "dev": {
+        "mid":"",
+        "mode": "",
+        "sfmc_clientid" : "",
+        "sfmc_clientsecret" : "",
+        "orguniqueid" : ""
+    }
+}
