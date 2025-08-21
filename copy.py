@@ -42,7 +42,6 @@ python copy.py --objectname QueryDefinition --source-folder 10 --target-folder 2
 import argparse
 import logging as logger
 import os, sys, json
-from pathlib import Path
 from typing import Any, Dict, List
 
 from ET_Client import ET_Client, load_lookup_lists, find_object_by_name

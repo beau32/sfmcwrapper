@@ -1,6 +1,4 @@
 import os, json, sys, argparse
-import pandas as pd
-import duckdb as db
 
 import xml.etree.ElementTree as ET
 import pandas as pd

@@ -51,6 +51,12 @@ export SFMC_REST_URL=https://YOUR_SUBDOMAIN.rest.marketingcloudapis.com
 export SFMC_WSDL_URL=https://webservice.exacttarget.com/etframework.wsdl
 export SFMC_SOAP_ENDPOINT=https://YOUR_SUBDOMAIN.soap.marketingcloudapis.com
 ```
+Optional: --config ./config.json
+
+🔒 Notes
+Access tokens are shared between REST and SOAP.
+The client auto-refreshes expired tokens.
+Uses lxml.etree.Element to inject the OAuth token into SOAP headers.
 
 # Example Usage
 ```python
@@ -75,9 +81,6 @@ results = client.retrieve(
     properties=["Email", "SubscriberKey"],
     morerow=True
 )
-
-# Copy assets between folders
-client.copy(source_folder=12345, destination_folder=67890, asset_type="templatebasedemail")
 ```
 
 🐞 Enabling debugging
@@ -92,7 +95,41 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 ```
 
-🔒 Notes
-Access tokens are shared between REST and SOAP.
-The client auto-refreshes expired tokens.
-Uses lxml.etree.Element to inject the OAuth token into SOAP headers.
+In addtion, copy and fetch utility scripts will provide assistance to your analysis or migration needs
+
+🔍 Fetch (fetch.py)
+
+Export SFMC objects into CSVs for backup or auditing.
+
+- Content Builder Assets (REST)
+
+- Data Folders (SOAP)
+
+- Data Extensions (SOAP)
+
+Extendable to other SOAP objects via catalog
+
+Usage:
+
+# Fetch assets
+python Fetch_refactored_et_client.py --assets
+
+# Fetch DataExtensions with debug logging
+python Fetch_refactored_et_client.py --dataextensions --debug
+
+Copy Utility (copy.py)
+
+Copy or migrate SFMC objects between folders.
+
+- Assets (REST)
+
+- Data Extensions, Query Definitions, Trigger Sends (SOAP)
+
+- Extendable via catalogs (sfmc_soap_objects.json, sfmc_rest_objects.json)
+
+# Copy assets between folders
+python Copy_refactored_et_client.py --object Asset --source-folder 123 --target-folder 456
+
+# Copy DataExtensions
+python Copy_refactored_et_client.py --object DataExtension --source-folder 111 --target-folder 222
+
