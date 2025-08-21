@@ -1,2 +1,4 @@
+*csvexport
 conf.json
-__pycache__/
+__pycache__
+*backup*
