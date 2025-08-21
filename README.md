@@ -102,9 +102,7 @@ In addtion, copy and fetch utility scripts will provide assistance to your analy
 Export SFMC objects into CSVs for backup or auditing.
 
 - Content Builder Assets (REST)
-
 - Data Folders (SOAP)
-
 - Data Extensions (SOAP)
 
 Extendable to other SOAP objects via catalog
@@ -122,9 +120,7 @@ Copy Utility (copy.py)
 Copy or migrate SFMC objects between folders.
 
 - Assets (REST)
-
 - Data Extensions, Query Definitions, Trigger Sends (SOAP)
-
 - Extendable via catalogs (sfmc_soap_objects.json, sfmc_rest_objects.json)
 
 # Copy assets between folders
