@@ -1,6 +1,4 @@
 import os, json, sys, argparse
-
-import xml.etree.ElementTree as ET
 import pandas as pd
 
 from ET_Client import ET_Client, folder_find_path, load_lookup_lists, find_object_by_name

@@ -1,47 +1,6 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Generic SFMC copy/migration tool using ET_Client.
-Supports both SOAP and REST objects defined in external JSON catalogs.
-
----------------------------------------------------------------
-USAGE
----------------------------------------------------------------
-python copy.py --objectname <ObjectName> --source-folder <ID> --target-folder <ID> [options]
-
----------------------------------------------------------------
-ARGUMENTS
----------------------------------------------------------------
---objectname          (required)  The API object type to copy
-                              Examples: Asset, DataExtension, QueryDefinition, TriggerSendDefinition
-                              Must exist in sfmc_soap_objects.json or sfmc_rest_objects.json.
-
---source-folder   (required)  ID of the source folder/category to copy objects from.
-
---target-folder   (required)  ID of the target folder/category to copy objects into.
-
---conf          (optional)  Path to config.json for ET_Client authentication.
-                              Falls back to environment variables if not provided.
-
---debug           (optional)  Enable debug logging (prints REST/SOAP requests and raw responses).
-
----------------------------------------------------------------
-EXAMPLES
----------------------------------------------------------------
-# Copy Content Builder Assets from folder 12345 → 67890
-python copy.py --objectname Asset --source-folder 12345 --target-folder 67890
-
-# Copy Data Extensions from folder 111 → 222
-python copy.py --objectname DataExtension --source-folder 111 --target-folder 222
-
-# Copy Query Definitions with debug logging
-python copy.py --objectname QueryDefinition --source-folder 10 --target-folder 20 --debug
-
-"""
-
 import argparse
 import logging as logger
-import os, sys, json
+import sys
 from typing import Any, Dict, List
 
 from ET_Client import ET_Client, load_lookup_lists, find_object_by_name

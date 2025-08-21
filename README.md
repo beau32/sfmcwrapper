@@ -109,28 +109,24 @@ Usage:
 
 # Fetch assets
 ```bash
-python Fetch_refactored_et_client.py --assets
+python et_fetch.py --objectname assets
 ```
 
 # Fetch DataExtensions with debug logging
 ```bash
-python Fetch_refactored_et_client.py --dataextensions --debug
+python et_fetch.py --objectname DataExtension --debug
 ```
 
 # Copy Utility (copy.py)
 
-Copy or migrate SFMC objects between folders.
-
-- Assets (REST)
-- Data Extensions, Query Definitions, Trigger Sends (SOAP)
-- Extendable via catalogs (sfmc_soap_objects.json, sfmc_rest_objects.json)
+Copy or migrate SFMC objects between folders. Refere to the catalogs for the objectname (sfmc_soap_objects.json, sfmc_rest_objects.json)
 
 Copy assets between folders
 ```bash
-python Copy_refactored_et_client.py --object Asset --source-folder 123 --target-folder 456
+python et_copy.py --objectname listContentAssets --source-folder 123 --target-folder 456
 ```
 
 # Copy DataExtensions
 ```bash
-python Copy_refactored_et_client.py --object DataExtension --source-folder 111 --target-folder 222
+python et_copy.py --objectname DataExtension --source-folder 111 --target-folder 222
 ```
