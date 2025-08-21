@@ -95,9 +95,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 ```
 
-In addtion, copy and fetch utility scripts will provide assistance to your analysis or migration needs
-
-🔍 Fetch (fetch.py)
+# Fetch Utility (fetch.py)
 
 Export SFMC objects into CSVs for backup or auditing.
 
@@ -110,12 +108,16 @@ Extendable to other SOAP objects via catalog
 Usage:
 
 # Fetch assets
+```bash
 python Fetch_refactored_et_client.py --assets
+```
 
 # Fetch DataExtensions with debug logging
+```bash
 python Fetch_refactored_et_client.py --dataextensions --debug
+```
 
-Copy Utility (copy.py)
+# Copy Utility (copy.py)
 
 Copy or migrate SFMC objects between folders.
 
@@ -123,9 +125,12 @@ Copy or migrate SFMC objects between folders.
 - Data Extensions, Query Definitions, Trigger Sends (SOAP)
 - Extendable via catalogs (sfmc_soap_objects.json, sfmc_rest_objects.json)
 
-# Copy assets between folders
+Copy assets between folders
+```bash
 python Copy_refactored_et_client.py --object Asset --source-folder 123 --target-folder 456
+```
 
 # Copy DataExtensions
+```bash
 python Copy_refactored_et_client.py --object DataExtension --source-folder 111 --target-folder 222
-
+```
