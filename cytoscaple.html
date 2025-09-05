@@ -12,48 +12,50 @@
 <body>
 <h2>SFMC Automation & SQL Graph</h2>
 
+<div style="display:flex; gap:20px;">
 
-<label for="automationSelect">Filter by Automation:</label>
-<select id="automationSelect">
-  <option value="all">All Automations</option>
-</select>
+  <!-- Left column -->
+  <div style="flex:0 0 250px;">
+    <!-- Legend -->
+    
 
-<div id="legend" style="display:flex; gap:20px; align-items:center; margin:20px 0;">
-  <h4 style="margin:0 10px 0 0;">Legend:</h4>
-
-  <!-- Automation -->
-  <div style="display:flex; align-items:center; gap:6px;">
-    <span style="display:inline-block; width:20px; height:15px; background:#ff9800; border-radius:6px;"></span>
-    <span>Automation</span>
+    <!-- Filter -->
+    <div id="filter">
+      <label for="automationSelect"><b>Filter by Automation(s):</b></label><br>
+      <select id="automationSelect" multiple size="6" style="width:100%; margin-top:6px;">
+        <option value="all" selected>All Automations</option>
+      </select>
+    </div>
   </div>
 
-  <!-- SQL Activity -->
-  <div style="display:flex; align-items:center; gap:6px;">
-    <span style="display:inline-block; width:15px; height:15px; background:#4cafef; transform:rotate(45deg);"></span>
-    <span>SQL Activity</span>
+  <!-- Right column (graph) -->
+  <div style="flex:1;">
+   <div id="legend" style="display:flex; flex-wrap:wrap; gap:15px; margin-bottom:20px; align-items:center;">
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span style="display:inline-block; width:20px; height:15px; background:#ff9800; border-radius:6px;"></span>
+        <span>Automation</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span style="display:inline-block; width:15px; height:15px; background:#4cafef; transform:rotate(45deg);"></span>
+        <span>SQL Activity</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span style="display:inline-block; width:20px; height:15px; background:#1e88e5; border:2px solid #0d47a1;"></span>
+        <span>Target DE</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span style="display:inline-block; width:20px; height:15px; background:#90caf9; border:1px solid #666;"></span>
+        <span>Source DE</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span style="display:inline-block; width:30px; height:2px; background:#aaa;"></span>
+        <span>Data Flow</span>
+      </div>
+    </div>
+    <div id="cy" style="width:100%; height:750px; border:1px solid #ccc;"></div>
   </div>
 
-  <!-- Target DE -->
-  <div style="display:flex; align-items:center; gap:6px;">
-    <span style="display:inline-block; width:20px; height:15px; background:#1e88e5; border:2px solid #0d47a1;"></span>
-    <span>Target DE (Resulting Table)</span>
-  </div>
-
-  <!-- Source DE -->
-  <div style="display:flex; align-items:center; gap:6px;">
-    <span style="display:inline-block; width:20px; height:15px; background:#90caf9; border:1px solid #666;"></span>
-    <span>Source DE (Input Table)</span>
-  </div>
-
-  <!-- Edge -->
-  <div style="display:flex; align-items:center; gap:6px;">
-    <span style="display:inline-block; width:30px; height:2px; background:#aaa;"></span>
-    <span>Data Flow (edge, with mode label)</span>
-  </div>
 </div>
-
-
-<div id="cy"></div>
 
 <script>
 // Automations
@@ -223,21 +225,31 @@ const cy = cytoscape({
 cy.on('tap', 'node[type="query"]', evt => {
   alert("SQL for " + evt.target.data('label') + ":\n\n" + evt.target.data('sql'));
 });
-
-// Filter nodes by selected automation
 select.addEventListener('change', () => {
-  const selected = select.value;
+  const selected = Array.from(select.selectedOptions).map(o => o.value);
+
   cy.nodes().forEach(n => {
-    if (selected === 'all') {
+    if (selected.includes('all')) {
       n.show();
     } else {
-      if (n.data('automationId') === selected || n.data('id') === selected || (n.data('type') === 'de' && edges.some(e => e.data.source === n.data('id') && cy.getElementById(e.data.target).data('automationId') === selected))) {
+      if (
+        selected.includes(n.data('automationId')) ||
+        selected.includes(n.data('id')) ||
+        (
+          n.data('type') === 'de' &&
+          edges.some(e =>
+            e.data.source === n.data('id') &&
+            selected.includes(cy.getElementById(e.data.target).data('automationId'))
+          )
+        )
+      ) {
         n.show();
       } else {
         n.hide();
       }
     }
   });
+
   cy.edges().forEach(e => {
     const src = cy.getElementById(e.data('source'));
     const tgt = cy.getElementById(e.data('target'));
@@ -245,6 +257,7 @@ select.addEventListener('change', () => {
     else e.hide();
   });
 });
+
 </script>
 </body>
 </html>
