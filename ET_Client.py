@@ -125,6 +125,9 @@ class TokenManager:
 
         self.token = resp_json['access_token']
         expires_in = resp_json.get('expires_in', 1200)  # seconds
+        
+        logger.debug("Token refreshed, expires in %d seconds", expires_in)
+
         self.token_expiry = time.time() + expires_in - 60  # refresh 60 sec early
 
     def get_token(self):

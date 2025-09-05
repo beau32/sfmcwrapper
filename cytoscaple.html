@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>SFMC Automation & SQL Graph with Filter</title>
+<script src="https://unpkg.com/cytoscape@3.28.1/dist/cytoscape.min.js"></script>
+<style>
+#cy { width: 100%; height: 750px; border: 1px solid #ccc; margin-top: 10px; }
+#filter { margin-bottom: 10px; }
+</style>
+</head>
+<body>
+<h2>SFMC Automation & SQL Graph</h2>
+
+
+<label for="automationSelect">Filter by Automation:</label>
+<select id="automationSelect">
+  <option value="all">All Automations</option>
+</select>
+
+<div id="legend" style="display:flex; gap:20px; align-items:center; margin:20px 0;">
+  <h4 style="margin:0 10px 0 0;">Legend:</h4>
+
+  <!-- Automation -->
+  <div style="display:flex; align-items:center; gap:6px;">
+    <span style="display:inline-block; width:20px; height:15px; background:#ff9800; border-radius:6px;"></span>
+    <span>Automation</span>
+  </div>
+
+  <!-- SQL Activity -->
+  <div style="display:flex; align-items:center; gap:6px;">
+    <span style="display:inline-block; width:15px; height:15px; background:#4cafef; transform:rotate(45deg);"></span>
+    <span>SQL Activity</span>
+  </div>
+
+  <!-- Target DE -->
+  <div style="display:flex; align-items:center; gap:6px;">
+    <span style="display:inline-block; width:20px; height:15px; background:#1e88e5; border:2px solid #0d47a1;"></span>
+    <span>Target DE (Resulting Table)</span>
+  </div>
+
+  <!-- Source DE -->
+  <div style="display:flex; align-items:center; gap:6px;">
+    <span style="display:inline-block; width:20px; height:15px; background:#90caf9; border:1px solid #666;"></span>
+    <span>Source DE (Input Table)</span>
+  </div>
+
+  <!-- Edge -->
+  <div style="display:flex; align-items:center; gap:6px;">
+    <span style="display:inline-block; width:30px; height:2px; background:#aaa;"></span>
+    <span>Data Flow (edge, with mode label)</span>
+  </div>
+</div>
+
+
+<div id="cy"></div>
+
+<script>
+// Automations
+const automations = [
+  { automationId: "Auto_1", cadence: "Daily", startTime: "08:00", timezone: "NZST" },
+  { automationId: "Auto_2", cadence: "Hourly", startTime: "00:00", timezone: "NZST" },
+  { automationId: "Auto_3", cadence: "Weekly", startTime: "09:00", timezone: "NZST" },
+  { automationId: "Auto_4", cadence: "Daily", startTime: "10:00", timezone: "NZST" },
+  { automationId: "Auto_5", cadence: "Hourly", startTime: "12:00", timezone: "NZST" },
+  { automationId: "Auto_6", cadence: "Weekly", startTime: "14:00", timezone: "NZST" }
+];
+
+// Activities
+const activities = [
+  { automationId: "Auto_1", sqlActivityId: "SQL_101", stepId: 1,
+    queryText: "SELECT u.id, o.amount FROM Users u JOIN Orders o ON u.id = o.user_id",
+    targetDE: "Orders_DE", mode: "add" },
+  { automationId: "Auto_1", sqlActivityId: "SQL_102", stepId: 2,
+    queryText: "SELECT o.id, p.method FROM Orders o JOIN Payments p ON o.id = p.order_id",
+    targetDE: "Payments_DE", mode: "overwrite" },
+  { automationId: "Auto_2", sqlActivityId: "SQL_201", stepId: 1,
+    queryText: "SELECT u.id, u.name FROM Users u",
+    targetDE: "Users_Snapshot_DE", mode: "update" },
+  { automationId: "Auto_3", sqlActivityId: "SQL_301", stepId: 1,
+    queryText: "SELECT p.product_id, c.category_name FROM Products p JOIN Categories c ON p.category_id = c.id",
+    targetDE: "Products_Report_DE", mode: "overwrite" },
+  { automationId: "Auto_3", sqlActivityId: "SQL_302", stepId: 2,
+    queryText: "SELECT pr.id, pr.name FROM Products_Report_DE pr JOIN Categories c ON pr.category_id = c.id",
+    targetDE: "Product_Summary_DE", mode: "add" },
+  { automationId: "Auto_4", sqlActivityId: "SQL_401", stepId: 1,
+    queryText: "SELECT c.id, c.email FROM Customers c",
+    targetDE: "Customer_DE", mode: "add" },
+  { automationId: "Auto_4", sqlActivityId: "SQL_402", stepId: 2,
+    queryText: "SELECT c.id, s.status FROM Customer_DE c JOIN Subscriptions s ON c.id = s.customer_id",
+    targetDE: "Customer_Status_DE", mode: "update" },
+  { automationId: "Auto_5", sqlActivityId: "SQL_501", stepId: 1,
+    queryText: "SELECT e.id, e.date FROM Events e",
+    targetDE: "Events_DE", mode: "add" },
+  { automationId: "Auto_5", sqlActivityId: "SQL_502", stepId: 2,
+    queryText: "SELECT e.id, t.type FROM Events_DE e JOIN EventTypes t ON e.type_id = t.id",
+    targetDE: "Event_Types_DE", mode: "overwrite" },
+  { automationId: "Auto_6", sqlActivityId: "SQL_601", stepId: 1,
+    queryText: "SELECT s.id, s.score FROM Survey s",
+    targetDE: "Survey_Scores_DE", mode: "update" }
+];
+
+let nodes = {};
+let edges = [];
+
+// Populate dropdown
+const select = document.getElementById('automationSelect');
+automations.forEach(a => {
+  let opt = document.createElement('option');
+  opt.value = a.automationId;
+  opt.text = a.automationId;
+  select.appendChild(opt);
+});
+
+// Add automation nodes
+automations.forEach(a => {
+  nodes[a.automationId] = {
+    data: { 
+      id: a.automationId,
+      label: a.automationId,
+      cadence: a.cadence,
+      startTime: a.startTime,
+      timezone: a.timezone,
+      type: 'automation'
+    }
+  };
+});
+
+// Add query/step nodes and edges
+activities.forEach((act, i) => {
+  const queryNodeId = "Query_" + i;
+  nodes[queryNodeId] = { data: { id: queryNodeId, label: `Step ${act.stepId}`, sql: act.queryText, automationId: act.automationId, type: 'query' } };
+
+  // Edge: automation → query
+  edges.push({ data: { id: `e_auto_${queryNodeId}`, source: act.automationId, target: queryNodeId } });
+
+  // Target DE node
+  if (!nodes[act.targetDE]) nodes[act.targetDE] = { data: { id: act.targetDE, label: act.targetDE, type: 'de', isTarget: 'true' } };
+
+  // Edge: query → target DE with mode label
+  edges.push({ data: { id: `e_query_${act.targetDE}`, source: queryNodeId, target: act.targetDE, label: act.mode } });
+
+  // Source DEs from SQL
+  const tableRegex = /\bFROM\s+([a-zA-Z0-9_]+)|\bJOIN\s+([a-zA-Z0-9_]+)/gi;
+  let matches = [...act.queryText.matchAll(tableRegex)];
+  let tables = matches.map(m => m[1] || m[2]).filter(Boolean);
+  tables.forEach(t => {
+    if (!nodes[t]) nodes[t] = { data: { id: t, label: t, type: 'de', isTarget: 'false' } };
+    edges.push({ data: { id: `e_${t}_${queryNodeId}`, source: t, target: queryNodeId } });
+  });
+});
+
+const cyElements = Object.values(nodes).concat(edges);
+
+const cy = cytoscape({
+  container: document.getElementById('cy'),
+  elements: cyElements,
+  style: [
+    { selector: 'node[type="automation"]', style: {
+        'shape':'round-rectangle',
+        'background-color':'#ff9800',
+        'label': ele => `${ele.data('cadence')} ${ele.data('startTime')} ${ele.data('timezone')}\n${ele.data('label')}`,
+        'text-valign':'top',
+        'text-halign':'center',
+        'text-margin-y': -15,
+        'font-size':'12px',
+        'font-weight':'bold',
+        'padding':'15px',
+        'text-wrap':'wrap'
+    }},
+    { selector: 'node[type="query"]', style: {
+        'shape':'diamond',
+        'background-color':'#4cafef',
+        'color':'#fff',
+        'label':'data(label)',
+        'text-valign':'center',
+        'text-halign':'center',
+        'padding':'10px',
+        'text-wrap':'wrap'
+    }},
+    { selector: 'node[isTarget="true"]', style: {
+        'shape':'rectangle',
+        'background-color':'#1e88e5',
+        'color':'#fff',
+        'label':'data(label)',
+        'font-size':'14px',
+        'font-weight':'bold',
+        'border-width':3,
+        'border-color':'#0d47a1',
+        'text-valign':'center',
+        'text-halign':'center',
+        'width':'label',
+        'height':'label',
+        'padding':'10px',
+        'text-wrap':'wrap'
+    }},
+    { selector: 'node[isTarget="false"]', style: {
+        'shape':'rectangle',
+        'background-color':'#90caf9',
+        'color':'#000',
+        'label':'data(label)',
+        'font-size':'12px',
+        'text-valign':'center',
+        'text-halign':'center',
+        'padding':'5px'
+    }},
+    { selector: 'edge', style: {
+        'width':2,
+        'line-color':'#aaa',
+        'target-arrow-shape':'triangle',
+        'target-arrow-color':'#aaa',
+        'curve-style':'bezier',
+        'label':'data(label)',
+        'font-size':'10px',
+        'text-rotation':'autorotate',
+        'text-margin-y':-10
+    }}
+  ],
+  layout: { name: 'cose', animate: true, idealEdgeLength: 100, nodeOverlap: 20, refresh: 20, fit: true, padding: 30, randomize: true }
+});
+
+// Click query node to show SQL
+cy.on('tap', 'node[type="query"]', evt => {
+  alert("SQL for " + evt.target.data('label') + ":\n\n" + evt.target.data('sql'));
+});
+
+// Filter nodes by selected automation
+select.addEventListener('change', () => {
+  const selected = select.value;
+  cy.nodes().forEach(n => {
+    if (selected === 'all') {
+      n.show();
+    } else {
+      if (n.data('automationId') === selected || n.data('id') === selected || (n.data('type') === 'de' && edges.some(e => e.data.source === n.data('id') && cy.getElementById(e.data.target).data('automationId') === selected))) {
+        n.show();
+      } else {
+        n.hide();
+      }
+    }
+  });
+  cy.edges().forEach(e => {
+    const src = cy.getElementById(e.data('source'));
+    const tgt = cy.getElementById(e.data('target'));
+    if (src.visible() && tgt.visible()) e.show();
+    else e.hide();
+  });
+});
+</script>
+</body>
+</html>

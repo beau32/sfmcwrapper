@@ -87,7 +87,7 @@ def save(response_fields, filename):
 
       df_clean = df_objects.replace(to_replace=['[]', '{}'], value=pd.NA)
       df_clean = df_objects.dropna(axis=1, how='all')
-        
+      
       os.makedirs(client.config['accountid']+"_csvexport", exist_ok=True)
       output_path = os.path.join(client.config['accountid'] +"_csvexport", filename)
       df_clean.to_csv(output_path,index=False)
@@ -103,7 +103,7 @@ def main():
   parser.add_argument("--conf", required=True, help="Config key to use from conf.json (e.g. 1)")
   parser.add_argument("--file", default="conf.json", help="Path to config file (default: conf.json)")
   parser.add_argument("--objectname", required=True, help="The object name (e.g. user, order, customer)")
-  parser.add_argument("--debug", required=False, help="The object name (e.g. user, order, customer)")
+  parser.add_argument("--debug", action="store_true", help="if its running in debug mode")
   
   args = parser.parse_args()
   

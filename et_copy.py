@@ -38,13 +38,12 @@ def fetch_rest_objects(client: ET_Client, definition: Dict, folder_id: str = Non
     """Fetch objects via REST."""
     params = {}
     if not definition['endpoint'] or not definition["fields"]:
-        raise Exception('fields or endpoint not declared') 
+        raise Exception('fields or endpoint not declared')
 
     params["$fields"] = definition["fields"]
 
     params["$page"] = 1
     params["$pagesize"] = 50
-    
 
     if definition.get("order_by"):
         params["$order_by"] = definition.get("order_by", "")

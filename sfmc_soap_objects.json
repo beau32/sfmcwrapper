@@ -80,8 +80,13 @@
         "description": "Represents an automation workflow."
     },
     {
+        "name": "QueryDefinition",
+        "fields": ["Name", "CustomerKey", "QueryText", "Description", "ObjectID", "TargetType", "DataExtensionTarget.Name", "DataExtensionTarget.CustomerKey"],
+        "description": "Represents an automation workflow."
+    },
+    {
         "name": "AutomationActivity",
-        "fields": ["ActivityID", "Name", "ActivityType", "Description", "IsActive"],
+        "fields": ["ActivityObject", "AutomationTask", "Automation", "CustomerKey", "Definition","ID","Sequence","ObjectID"],
         "description": "Defines an activity within an automation."
     },
     {
@@ -111,7 +116,7 @@
     },
     {
         "name": "AutomationTask",
-        "fields": ["TaskID", "Name", "Activity"],
+        "fields": ["CustomerKey", "ID", "Name", "Activity"],
         "description": "Represents a task within an automation."
     },
     {
