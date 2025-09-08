@@ -1,15 +1,13 @@
-import os, json, sys, argparse
-import pandas as pd
-import duckdb as db
-
-import xml.etree.ElementTree as ET
+import os, argparse, re
 import pandas as pd
 
 from ET_Client import ET_Client, folder_find_path, load_lookup_lists, find_object_by_name
 from zeep.helpers import serialize_object
 import logging as logger
 
-def fetching_soap(objectname, objectlist) -> list:
+client = None
+
+def fetching_soap(client, objectname, objectlist) -> list:
 
   res = find_object_by_name(objectlist, objectname)
 
@@ -28,12 +26,12 @@ def fetching_soap(objectname, objectlist) -> list:
   
   return response_fields
 
-def fetching_rest(objectname, objectlist) -> list:
-
+def fetching_rest(client, objectname, objectlist, oid=None) -> list:
+  
   res = find_object_by_name(objectlist , objectname)
 
   if not res:
-    print(f"Object '{objectname}' not found in the lookup list.")
+    print(f"Object '{objectname} ' not found in the lookup list.")
     return []
   
   try:
@@ -53,9 +51,12 @@ def fetching_rest(objectname, objectlist) -> list:
     if 'fields' in res and res['fields']:
       parameters['$fields'] = res['fields']
   
+    
+    if oid:
+      endpoint = re.sub(r'\{id\}', oid, res['endpoint'])
 
     response_fields = method_to_call(
-        resourcepath=res['endpoint'],
+        resourcepath=endpoint,
         parameters=parameters,
         morerow=True
     )
@@ -74,7 +75,7 @@ def fetching_rest(objectname, objectlist) -> list:
   
 
 def save(response_fields, filename):
-
+  
   if response_fields.OverallStatus == 'OK':
     results = response_fields.Results
 
@@ -84,7 +85,25 @@ def save(response_fields, filename):
       
       if filename == 'DataFolder.csv':
         df_objects['FullPath'] = df_objects.apply(lambda row: folder_find_path(df_objects, row['ParentFolder_ObjectID']), axis=1)
+      if filename == 'getAutomationById.csv':
+        df_objects = pd.json_normalize(
+            results,
+            record_path=['steps', 'activities', 'targetDataExtensions'],  # deepest list
+            meta=[
+                'id', 'name', 'key', 'typeId', 'type', 'statusId', 'status', 
+                'categoryId', 'lastRunTime', 'lastRunInstanceId',
+                ['schedule', 'scheduleStatus'],
+                ['steps', 'id'], ['steps', 'name'], ['steps', 'step'],   # step-level info
+                ['steps', 'activities', 'id'], ['steps', 'activities', 'name'], 
+                ['steps', 'activities', 'activityObjectId'], ['steps', 'activities', 'objectTypeId'],
+                ['steps', 'activities', 'displayOrder']
+            ],
+            record_prefix='targetDE_',
+            meta_prefix='automation_',
+            errors='ignore'
+        )
 
+      df_objects = df_objects.astype(object)  # ensure all columns are objects
       df_clean = df_objects.replace(to_replace=['[]', '{}'], value=pd.NA)
       df_clean = df_objects.dropna(axis=1, how='all')
       
@@ -97,12 +116,12 @@ def save(response_fields, filename):
       print(f"No results found for {filename}. No CSV file created.")
 
 def main():
-  global client
-
+  
   parser = argparse.ArgumentParser(description="Load configuration from JSON")
   parser.add_argument("--conf", required=True, help="Config key to use from conf.json (e.g. 1)")
   parser.add_argument("--file", default="conf.json", help="Path to config file (default: conf.json)")
   parser.add_argument("--objectname", required=True, help="The object name (e.g. user, order, customer)")
+  parser.add_argument("--id", help="if it's fetching by id")
   parser.add_argument("--debug", action="store_true", help="if its running in debug mode")
   
   args = parser.parse_args()
@@ -115,11 +134,15 @@ def main():
   client = ET_Client(args.file, args.conf) if args.conf else ET_Client()
 
   rest, soap, datafolder = load_lookup_lists()
+  
   try:
     if find_object_by_name(soap,args.objectname):
       results =  fetching_soap(args.objectname, soap)
-    elif find_object_by_name(rest,args.objectname):
-      results = fetching_rest(args.objectname, rest)
+    elif find_object_by_name(rest, args.objectname):
+      if args.id:
+        results = fetching_rest(client,args.objectname, rest , id=args.id)
+      else:
+        results = fetching_rest(client,args.objectname, rest)
     else:
       print(f"Object '{args.objectname}' not found in catalogs.")
       return

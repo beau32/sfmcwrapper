@@ -600,6 +600,22 @@
         "name": "getSmsMessageContactDeliveries"
     },
     {
+        "endpoint": "automation/v1/automations/{id}",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "automations_read",
+        "description": "fetching one automation.",
+        "name": "getAutomationById"
+    },
+    {
+        "endpoint": "automation/v1/automations",
+        "method": "GET",
+		"fields":"",
+        "api_permission_scope": "automations_read",
+        "description": "fetching all automations.",
+        "name": "listAutomations"
+    },
+    {
         "endpoint": "/sms/v1/automation/importSend",
         "method": "POST",
 		"fields":"",

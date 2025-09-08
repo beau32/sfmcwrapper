@@ -308,7 +308,7 @@ class ET_Client:
             response = requests.get(url, headers=headers)
             response.raise_for_status()
             data = response.json()
-
+            
             if 'items' in data and len(data['items']) > 0:
                 all_data.extend(data['items'])
             elif len(data)> 0:
@@ -324,7 +324,7 @@ class ET_Client:
 
             page = int(params.get('$page', 1)) + 1
             params['$page'] = str(page)
-
+        
         return type('RetrieveResponse', (), {
             'Results': all_data,
             'OverallStatus': 'OK'
