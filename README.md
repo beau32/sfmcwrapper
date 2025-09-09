@@ -107,12 +107,12 @@ Extendable to other SOAP objects via catalog
 
 Usage:
 
-# Fetch assets
+Fetch assets
 ```bash
 python et_fetch.py --objectname assets
 ```
 
-# Fetch DataExtensions with debug logging
+Fetch DataExtensions with debug logging
 ```bash
 python et_fetch.py --objectname DataExtension --debug
 ```
@@ -126,7 +126,7 @@ Copy assets between folders
 python et_copy.py --objectname listContentAssets --source-folder 123 --target-folder 456
 ```
 
-# Copy DataExtensions
+Copy DataExtensions
 ```bash
 python et_copy.py --objectname DataExtension --source-folder 111 --target-folder 222
 ```
