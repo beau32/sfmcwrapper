@@ -163,9 +163,6 @@
               data: {
                 id: a.automationId,
                 label: a.name,
-                cadence: a.cadence,
-                startTime: a.startTime,
-                timezone: a.timezone,
                 type: "automation",
               },
             };
@@ -246,9 +243,7 @@
                   shape: "round-rectangle",
                   "background-color": "#ff9800",
                   label: (ele) =>
-                    `${ele.data("cadence")} ${ele.data("startTime")} ${ele.data(
-                      "timezone"
-                    )}\n${ele.data("label")}`,
+                    `${ele.data("label")}`,
                   "text-valign": "top",
                   "text-halign": "center",
                   "text-margin-y": -15,
@@ -378,6 +373,7 @@
               else e.hide();
             });
           });
+          
         })
       .catch(error => {
           console.error("Error loading JSON files:", error);

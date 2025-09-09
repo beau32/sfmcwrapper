@@ -45,7 +45,6 @@ def join_files(client, query_pd, automation_pd, automationbyid_pd):
     print(f"Joined data saved to {joined_file}")
     print(f"Total joined rows: {len(df_joined)}")
 
-    print(df_joined.columns)
     # Optional: build activities array for JS
     activities = []
 
@@ -59,7 +58,7 @@ def join_files(client, query_pd, automation_pd, automationbyid_pd):
             "sqlActivityId": row.get("activityObjectId"),  # adjust depending on your csv
             "stepId": row.get("step", 0),
             "queryText": row.get("QueryText", ""),
-            "targetDE": row.get("DataExtensionTarget_Name", ""),
+            "targetDE": row.get("Target_Name", ""),
             "status": row.get("status_automation", ""),
             "type": row.get("type_automation", ""),
             "mode": row.get("targetUpdateType", ""),
@@ -112,7 +111,19 @@ def main():
             if query_definition.OverallStatus != 'OK' or query_definition.Results is None:
                 print("No automations found or error in fetching automations.")
                 return
-            query_df = pd.DataFrame(query_definition['Results'])
+            data = []
+            for q in query_definition.Results:
+                data.append({
+                    'Name': getattr(q, 'Name', None),
+                    'CustomerKey': getattr(q, 'CustomerKey', None),
+                    'QueryText': getattr(q, 'QueryText', None),
+                    'TargetUpdateType': getattr(q, 'TargetUpdateType', None),
+                    'ObjectID': getattr(q, 'ObjectID', None),
+                    # nested DataExtensionTarget
+                    'Target_Name': getattr(getattr(q, 'DataExtensionTarget', None), 'Name', None),
+                    'Target_CustomerKey': getattr(getattr(q, 'DataExtensionTarget', None), 'CustomerKey', None)
+                })
+            query_df = pd.DataFrame(data)
             query_df.to_csv(f"{client.config['accountid']}_csvexport/{query}.csv", index=False)
         else:
             print(f"{query}.csv already exists, skipping fetch")
@@ -148,10 +159,6 @@ def main():
 
                     if df.OverallStatus != 'OK':
                         raise Exception(f"Failed to fetch details for automation {automation_id}")
-                    
-                    for r in df.Results:
-                        if "schedule" in r:
-                            r["schedule"] = ensure_dict(r["schedule"])
                     
                     # Step 1: normalize top-level object
                     df_top = pd.json_normalize(df.Results)

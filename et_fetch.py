@@ -54,6 +54,8 @@ def fetching_rest(client, objectname, objectlist, oid=None) -> list:
     
     if oid:
       endpoint = re.sub(r'\{id\}', oid, res['endpoint'])
+    else:
+      endpoint = res['endpoint']
 
     response_fields = method_to_call(
         resourcepath=endpoint,
