@@ -81,7 +81,7 @@
     },
     {
         "name": "QueryDefinition",
-        "fields": ["Name", "CustomerKey", "QueryText", "Description", "ObjectID", "TargetType", "DataExtensionTarget.Name", "DataExtensionTarget.CustomerKey"],
+        "fields": ["Name", "CustomerKey", "QueryText", "Description", "ObjectID", "TargetType", "DataExtensionTarget.Name", "DataExtensionTarget.CustomerKey","TargetUpdateType","TargetType"],
         "description": "Represents an automation workflow."
     },
     {

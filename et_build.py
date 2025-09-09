@@ -50,8 +50,10 @@ def join_files(client, query_pd, automation_pd, automationbyid_pd):
 
     df_joined.fillna("", inplace=True)
     automation_pd.fillna("", inplace=True)
+    print(df_joined.columns)
 
     for _, row in df_joined.iterrows():
+        
         activities.append({
             "automationId": row.get("automationId"),
             "name": row.get("name_activity"),
@@ -61,7 +63,7 @@ def join_files(client, query_pd, automation_pd, automationbyid_pd):
             "targetDE": row.get("Target_Name", ""),
             "status": row.get("status_automation", ""),
             "type": row.get("type_automation", ""),
-            "mode": row.get("targetUpdateType", ""),
+            "mode": row.get("TargetUpdateType", ""),
             "folder": row.get("categoryId_automation", ""),
             "schedule": row.get("scheduleStatus", ""),
             "fileTrigger": row.get("fileTrigger", "")

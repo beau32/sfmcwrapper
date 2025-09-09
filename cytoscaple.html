@@ -212,8 +212,7 @@
             });
 
             // Source DEs from SQL
-            const tableRegex =
-              /\bFROM\s+([a-zA-Z0-9_]+)|\bJOIN\s+([a-zA-Z0-9_]+)/gi;
+            const tableRegex = /\bFROM\s+([a-zA-Z0-9_.]+)|\bJOIN\s+([a-zA-Z0-9_.]+)/gi;
             let matches = [...act.queryText.matchAll(tableRegex)];
             let tables = matches.map((m) => m[1] || m[2]).filter(Boolean);
             tables.forEach((t) => {
