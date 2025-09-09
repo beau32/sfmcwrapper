@@ -130,3 +130,27 @@ python et_copy.py --objectname listContentAssets --source-folder 123 --target-fo
 ```bash
 python et_copy.py --objectname DataExtension --source-folder 111 --target-folder 222
 ```
+
+# SFMC Automation & SQL Graph
+Interactive visualization tool built with Cytoscape.js that maps Salesforce Marketing Cloud entities — Automations, Automation Activities, and QueryDefinitions.
+It displays relationships between automations, SQL activities, and source/target data extensions with different modes, with features like:
+
+- Dynamic graph layout showing entity connections
+- Multi-select filter for focusing on specific automations
+- Clickable query nodes to view SQL text
+- Legend for easy identification of entity types
+- Auto re-centering and zoom controls for smooth navigation
+
+Extract and Build
+```bash
+python et_build.py --conf xyz
+```
+
+Launch a webserver
+```bash
+python et_server.py
+```
+
+Go to your browser with the following link.
+https://localhost:8000/cytoscaple.html
+
