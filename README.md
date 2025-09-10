@@ -151,6 +151,5 @@ Launch a webserver
 python et_server.py
 ```
 
-Go to your browser with the following link.
-https://localhost:8000/cytoscaple.html
+The report will show in your browser under https://localhost/cytoscaple.html
 
