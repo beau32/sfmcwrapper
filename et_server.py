@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import http.server
-import ssl
-import os
+import ssl, os, threading, time, webbrowser
+
 
 PORT = 8000
 ALLOWED_FILES = ["cytoscaple.html", "activities.json","automations.json"]
@@ -31,5 +31,19 @@ context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 context.load_cert_chain(certfile="server.crt", keyfile="server.key")
 httpd.socket = context.wrap_socket(httpd.socket, server_side=True)
 
-print(f"Serving HTTPS on port {PORT} (only {', '.join(ALLOWED_FILES)})...")
-httpd.serve_forever()
+def run_server():
+    print(f"Serving HTTPS on port {PORT} (only {', '.join(ALLOWED_FILES)})...")
+    httpd.serve_forever()
+
+# Start server in a thread
+threading.Thread(target=run_server, daemon=True).start()
+
+# Wait a bit to let server start
+time.sleep(2)
+
+# Open browser
+url = f"https://localhost:{PORT}/cytoscaple.html"
+webbrowser.open(url)
+
+# Keep main thread alive
+input("Press Enter to stop...\n")
